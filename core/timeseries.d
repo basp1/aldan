@@ -17,21 +17,21 @@ class TimeSeries(T)
 		items = Array!T();
 	}
 
-	Tuple!(DateTime, T) first()
+	@property Tuple!(DateTime, T) first()
 	{
 		assert(!items.empty());
 
 		return tuple(dates[0], items[0]);
 	}
 
-	Tuple!(DateTime, T) last()
+	@property Tuple!(DateTime, T) last()
 	{
 		assert(!items.empty());
 
 		return tuple(dates[$ - 1], items[$ - 1]);
 	}
 
-	int length()
+	@property int length() const
 	{
 		return to!int(items.length());
 	}
