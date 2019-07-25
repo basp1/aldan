@@ -14,7 +14,7 @@
   <verbose>0</verbose>
   <vtls>0</vtls>
   <vgc>0</vgc>
-  <symdebug>1</symdebug>
+  <symdebug>2</symdebug>
   <symdebugref>1</symdebugref>
   <optimize>0</optimize>
   <cpu>0</cpu>
@@ -245,6 +245,7 @@
  <Folder name="aldan">
   <Folder name="core">
    <File path="core\arrays.d" />
+   <File path="core\flatmap.d" />
    <File path="core\timeseries.d" />
   </Folder>
   <File path="main.d" />
