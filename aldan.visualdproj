@@ -251,6 +251,7 @@
   <Folder name="decisions">
    <File path="decisions\dataset.d" />
    <File path="decisions\feature.d" />
+   <File path="decisions\id3.d" />
   </Folder>
   <File path="main.d" />
  </Folder>

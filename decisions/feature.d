@@ -1,20 +1,30 @@
 module decisions.feature;
 
 import std.math;
+import std.uuid;
 
 struct Tag
 {
-	int id;
+	string name;
+	UUID id;
+
+	this(string name)
+	{
+		id = randomUUID();
+		this.name = name;
+	}
 }
 
 struct Feature
 {
+	UUID id;
 	string name;
     double spanBegin;
     double spanEnd;
 
     this(string name, double spanBegin, double spanEnd)
 	{
+		id = randomUUID();
         this.name = name;
         this.spanBegin = spanBegin;
         this.spanEnd = spanEnd;
