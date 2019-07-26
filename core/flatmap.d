@@ -83,8 +83,8 @@ class FlatMap(Key, Value)
 
 		if (index >= 0 && index < length && key == keys[index])
 		{
-			keys.linearRemove(keys[index..index]);
-			values.linearRemove(values[index..index]);
+			keys.linearRemove(keys[index..index+1]);
+			values.linearRemove(values[index..index+1]);
 		}
 	}
 
@@ -141,4 +141,33 @@ unittest
 	assert('c' == map[3]);
 	assert('D' == map[4]);
 	assert('e' == map[5]);
+}
+
+unittest
+{
+	auto map = new FlatMap!(int, char)();
+
+	map[1] = 'a';
+	map[5] = 'e';
+	map[3] = 'c';
+	map[2] = 'b';
+	map[4] = 'd';
+
+	map.remove(3);
+	assert(4 == map.length);
+	assert('a' == map[1]);
+	assert('b' == map[2]);
+	assert('d' == map[4]);
+	assert('e' == map[5]);
+	assert(!map.contains(3));
+
+	map.remove(1);
+	map.remove(4);
+	map.remove(5);
+	assert(1 == map.length);
+	assert('b' == map[2]);
+	assert(!map.contains(3));
+	assert(!map.contains(1));
+	assert(!map.contains(4));
+	assert(!map.contains(5));
 }
