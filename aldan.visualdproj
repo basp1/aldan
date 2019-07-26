@@ -248,6 +248,10 @@
    <File path="core\flatmap.d" />
    <File path="core\timeseries.d" />
   </Folder>
+  <Folder name="decisions">
+   <File path="decisions\dataset.d" />
+   <File path="decisions\feature.d" />
+  </Folder>
   <File path="main.d" />
  </Folder>
 </DProject>
