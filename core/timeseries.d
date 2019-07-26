@@ -2,33 +2,45 @@ module core.timeseries;
 
 import std.container.array;
 import std.datetime.date;
+import std.datetime.interval;
+import std.exception;
 import std.typecons;
 import std.conv;
 import core.arrays;
 
+class TimeException : Exception
+{
+	this(string message, string file = __FILE__, size_t line = __LINE__)
+	{
+		super(message, file, line);
+	}
+}
+
 class TimeSeries(T)
 {
-	Array!DateTime dates;
+	alias Time = DateTime;
+
+	Array!Time times;
 	Array!T items;
 
 	this()
 	{
-		dates = Array!DateTime();
+		times = Array!Time();
 		items = Array!T();
 	}
 
-	@property Tuple!(DateTime, T) first()
+	@property Tuple!(Time, T) first()
 	{
-		assert(!items.empty());
+		enforce(!items.empty());
 
-		return tuple(dates[0], items[0]);
+		return tuple(times[0], items[0]);
 	}
 
-	@property Tuple!(DateTime, T) last()
+	@property Tuple!(Time, T) last()
 	{
-		assert(!items.empty());
+		enforce(!items.empty());
 
-		return tuple(dates[$ - 1], items[$ - 1]);
+		return tuple(times[$ - 1], items[$ - 1]);
 	}
 
 	@property int length() const
@@ -36,29 +48,29 @@ class TimeSeries(T)
 		return to!int(items.length());
 	}
 
-	void append(DateTime date, T item)
+	void append(Time time, T item)
 	{
-		if (length() > 0 && date < dates[$ - 1])
+		if (length() > 0 && time < times[$ - 1])
 		{
-			throw new Exception("'date' should be < " ~ dates[$ - 1].toString());
+			throw new TimeException("'time' should be < " ~ times[$ - 1].toString());
 		}
 
-		dates.insert(date);
+		times.insert(time);
 		items.insert(item);
 	}
 
-	void insert(DateTime date, T item)
+	void insert(Time time, T item)
 	{
-		int index = lowerBound(dates, date);
+		int index = lowerBound(times, time);
 
-		if (index >= 0 && index < length() && date == dates[index])
+		if (index >= 0 && index < length() && time == times[index])
 		{
-			dates[index] = date;
+			times[index] = time;
 			items[index] = item;
 		}
 		else
 		{
-			dates.insertAfter(dates[index..index], date);
+			times.insertAfter(times[index..index], time);
 			items.insertAfter(items[index..index], item);
 		}
 	}
