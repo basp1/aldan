@@ -97,3 +97,48 @@ unittest
 
     assert(10 == lowerBound(array, 100));
 }
+
+void sorting(Key,Value)(ref Array!Key keys, ref Array!Value values, size_t from, size_t to)
+{
+	import std.algorithm;
+
+	assert(keys.length == values.length);
+	assert(to >= from && to <= keys.length);
+
+	Array!size_t indices;
+	indices.length = to - from;
+	for(int i=0; i<indices.length; i++)
+	{
+		indices[i] = from + i;
+	}
+
+	auto sorted = indices.dup;
+	sort!((a,b) => keys[a] < keys[b])(sorted[]);
+
+	reindex(values, indices, sorted);
+	reindex(keys, indices, sorted);
+
+	destroy(indices);
+	destroy(sorted);
+}
+
+void reindex(T)(ref Array!T values, ref Array!size_t oldIndices, ref Array!size_t newIndices)
+{
+	assert(oldIndices.length == newIndices.length);
+	assert(oldIndices.length <= values.length);
+
+	size_t n = oldIndices.length;
+	auto t = values.dup;
+
+	for (int i = 0; i < n; i++)
+	{
+		t[i] = values[oldIndices[i]];
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		values[newIndices[i]] = t[i];
+	}
+
+	destroy(t);
+}
