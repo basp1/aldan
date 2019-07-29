@@ -246,6 +246,7 @@
   <Folder name="core">
    <File path="core\arrays.d" />
    <File path="core\flatmap.d" />
+   <File path="core\graph.d" />
    <File path="core\timeseries.d" />
   </Folder>
   <Folder name="decisions">
