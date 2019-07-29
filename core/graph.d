@@ -433,12 +433,12 @@ unittest
 	g.addEdge(b, a, '-');
 	g.addEdge(b, b, '-');
 	g.addEdge(c, a, '-');
-	g.addEdge(c, 1, '-');
+	g.addEdge(c, b, '-');
 
-	g.removeEdge(a, 1);
-	g.removeEdge(b, 1);
+	g.removeEdge(a, b);
+	g.removeEdge(b, b);
 	g.removeEdge(c, a);
-	g.removeEdge(c, 1);
+	g.removeEdge(c, b);
 
 	g.removeEdge(a, a);
 	g.addEdge(a, a, '-');
@@ -469,7 +469,7 @@ unittest
 	g.addEdge(b, a, '-');
 	g.addEdge(b, b, '-');
 	g.addEdge(c, a, '-');
-	g.addEdge(c, 1, '-');
+	g.addEdge(c, b, '-');
 
 	assert(6 == g.length);
 
@@ -489,7 +489,7 @@ unittest
 	g.addEdge(b, a, '-');
 	g.addEdge(b, b, '-');
 	g.addEdge(c, a, '-');
-	g.addEdge(c, 1, '-');
+	g.addEdge(c, b, '-');
 
 	g.sort();
 	e.sort();
@@ -509,7 +509,7 @@ unittest
 	g.addEdge(b, a, '-');
 	g.addEdge(b, b, '-');
 	g.addEdge(c, a, '-');
-	g.addEdge(c, 1, '-');
+	g.addEdge(c, b, '-');
 
 	assert(6 == g.length);
 
@@ -526,7 +526,7 @@ unittest
 	g.addEdge(b, a, '-');
 	g.addEdge(b, b, '-');
 	g.addEdge(c, a, '-');
-	g.addEdge(c, 1, '-');
+	g.addEdge(c, b, '-');
 
 	g.sort();
 	e.sort();
