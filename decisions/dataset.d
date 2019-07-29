@@ -4,7 +4,9 @@ import std.container.array;
 import std.exception;
 import std.typecons;
 import std.conv;
+import std.uuid;
 
+import core.flatmap;
 import decisions.feature;
 
 struct Sample(T)
@@ -16,17 +18,23 @@ struct Sample(T)
 class Dataset(T)
 {
 	Array!Sample samples;
+	FlatMap!(UUID, Tag) tags;
 
 	this()
 	{
+		tags = new FlatMap!(UUID, Tag)();
 	}
 
 	void add(ref Sample sample)
 	{
 		samples ~= sample;
+		foreach(feature ; sample.fatures)
+		{
+			tags[feature.tag.id] = feature.tag;
+		}
 	}
 
-	Sample first() const
+	Sample!T first() const
 	{
 		enforce(samples.length > 0);
 

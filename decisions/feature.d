@@ -3,7 +3,7 @@ module decisions.feature;
 import std.math;
 import std.uuid;
 
-struct Tag
+class Tag
 {
 	string name;
 	UUID id;
@@ -15,16 +15,18 @@ struct Tag
 	}
 }
 
-struct Feature
+class Feature
 {
 	UUID id;
 	string name;
+	Tag tag;
     double spanBegin;
     double spanEnd;
 
-    this(string name, double spanBegin, double spanEnd)
+    this(Tag tag, string name, double spanBegin, double spanEnd)
 	{
 		id = randomUUID();
+		this.tag = tag;
         this.name = name;
         this.spanBegin = spanBegin;
         this.spanEnd = spanEnd;
