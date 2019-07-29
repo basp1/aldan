@@ -48,7 +48,7 @@ class TimeSeries(T)
 		return to!int(items.length());
 	}
 
-	void append(Time time, T item)
+	void add(Time time, T item)
 	{
 		if (length() > 0 && time < times[$ - 1])
 		{
@@ -124,7 +124,7 @@ unittest
 
 	auto time1 = DateTime(2000, 3, 17, 10, 30, 0);
 	{
-		ts.append(time1, 10);
+		ts.add(time1, 10);
 
 		assert(1 == ts.length());
 		assert(10 == ts.get(time1)[1]);
@@ -142,7 +142,7 @@ unittest
 
 	auto time2 = DateTime(2000, 3, 17, 10, 31, 0);
 	{
-		ts.append(time2, 20);
+		ts.add(time2, 20);
 
 		assert(2 == ts.length());
 		assert(20 == ts.get(time2)[1]);
