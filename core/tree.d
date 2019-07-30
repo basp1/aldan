@@ -23,29 +23,29 @@ class Tree(T)
         root = graph.addVertex(Node.init);
     }
 
-    Id add(Id parent, const T value, float weight = 1)
+    Id add(Id parent, T value, float weight = 1)
     {
-        auto vertex = graph.addVertex(tuple!(Id, "parent", T, "value")(parent, value));
+        auto vertex = graph.addVertex(Node(parent, value));
         graph.addEdge(parent, vertex, weight);
         return vertex;
     }
 
-    T getVertex(Id vertex) const
+    T getVertex(Id vertex)
     {
         return graph.getVertex(vertex).value;
     }
 
-    Array!Id getSuccessors(Id vertex) const
+    Array!Id getSuccessors(Id vertex)
     {
         return graph.getAdjacent(vertex);
     }
 
-    bool hasSuccessors(Id vertex) const
+    bool hasSuccessors(Id vertex)
     {
         return graph.hasEdges(vertex);
     }
 
-    Id getParent(Id vertex) const
+    Id getParent(Id vertex)
     {
         return graph.getVertex(vertex).parent;
     }

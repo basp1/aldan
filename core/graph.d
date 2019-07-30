@@ -48,7 +48,7 @@ class Graph(V, E)
         edges.length = 0;
     }
 
-    Id addVertex(const V vertex)
+    Id addVertex(V vertex)
     {
         begin ~= NIL;
         vertices ~= vertex;
@@ -56,7 +56,7 @@ class Graph(V, E)
         return to!int(begin.length) - 1;
     }
 
-    V getVertex(Id vertex) const
+    V getVertex(Id vertex)
     {
         enforce(vertex >= 0 && vertex < begin.length);
 
