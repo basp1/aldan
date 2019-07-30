@@ -56,6 +56,13 @@ class Graph(V,E)
 		return to!int(begin.length) - 1;
 	}
 
+	V getVertex(Id vertex)
+	{
+		enforce(vertex >= 0 && vertex < begin.length);
+
+		return vertices[vertex];
+	}
+
 	bool hasEdges(Id vertex)
 	{
 		enforce(vertex >= 0 && vertex < begin.length);
@@ -191,6 +198,20 @@ class Graph(V,E)
 		free = begin[vertex];
 		begin[vertex] = NIL;
 		length -= n;
+	}
+
+	Array!Id getAdjacent(Id vertex)
+	{
+		enforce(vertex >= 0 && vertex < begin.length);
+
+		Array!Id adjacent;
+
+		for(int j = begin[vertex]; NIL != j; j = next[j])
+		{
+			adjacent ~= end[j];
+		}
+
+		return adjacent;
 	}
 
 	bool isLeaf(Id vertex)
@@ -330,7 +351,7 @@ class Graph(V,E)
 				next[index[count - 1]] = NIL;
 			}
 		}
-	
+
 		destroy(sorted);
 		destroy(index);
 	}
