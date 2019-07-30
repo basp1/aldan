@@ -248,6 +248,7 @@
    <File path="core\flatmap.d" />
    <File path="core\graph.d" />
    <File path="core\priorityqueue.d" />
+   <File path="core\stack.d" />
    <File path="core\timeseries.d" />
    <File path="core\tree.d" />
   </Folder>

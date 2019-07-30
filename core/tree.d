@@ -2,11 +2,11 @@ module core.tree;
 
 import core.lifetime;
 import std.container.array;
-import std.container.slist;
 import std.exception;
 import std.typecons;
 import std.conv;
 
+import core.stack;
 import core.graph;
 
 class Tree(T)
@@ -47,46 +47,38 @@ class Tree(T)
 
     Slist!(Array!Id) allPaths()
     {
-        Slist!(Array!Id) paths;
+        Stack!(Array!Id) paths;
 
-        SList!int path;
-        SList!int queue;
+        Stack!int path;
+        Stack!int queue;
 
-        queue.insertFront(root);
+        queue.push(root);
         bool backward = false;
 
         while (!queue.empty)
         {
-            int vertex = queue.front;
-            queue.removeFront();
+            int vertex = queue.pop();
 
             if (backward)
             {
-                path.removeFront();
                 auto parent = getParent(vertex);
-                while (!path.empty && parent != getParent(path.front))
+                while (!path.empty && parent != getParent(path.pop()))
                 {
-                    path.removeFront();
                 }
                 backward = false;
             }
 
-            path.insertFront(vertex);
+            path.push(vertex);
 
             if (!hasSuccessors(vertex))
             {
-                Array!Id p;
-                foreach (vertex; path)
-                {
-                    p ~= vertex;
-                }
-                paths.insertFront(move(p));
+                paths.insertFront(move(path.toArray()));
                 backward = true;
             }
 
             foreach (vertex; hasSuccessors(vertex))
             {
-                queue.insertFront(vertex);
+                queue.push(vertex);
             }
         }
 
