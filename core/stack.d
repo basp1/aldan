@@ -1,18 +1,22 @@
 module core.stack;
 
+import std.container.array;
 import std.container.slist;
 
 class Stack(T)
 {
+	size_t n;
     SList!T list;
 
     this()
     {
+		n = 0;
     }
 
-    void push(ref const T value)
+    void push(ref T value)
     {
         list.insertFront(value);
+		n++;
     }
 
     T pop()
@@ -20,11 +24,18 @@ class Stack(T)
         T value = top();
 
         list.removeFront();
+		n--;
 
         return value;
     }
 
-    @property T top() const
+    @property size_t length()
+    {
+        return n;
+    }
+
+
+    @property T top()
     {
         return list.front;
     }
@@ -34,7 +45,7 @@ class Stack(T)
         return list.empty;
     }
 
-    Array!T toArray() const
+    Array!T toArray()
     {
         Array!T array;
         foreach (value; list)
@@ -43,10 +54,5 @@ class Stack(T)
         }
 
         return array;
-    }
-
-    string toString() const
-    {
-        return list.toString();
     }
 }
