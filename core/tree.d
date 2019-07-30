@@ -45,7 +45,7 @@ class Tree(T)
         return getVertex(vertex).parent;
     }
 
-    Slist!(Array!Id) allPaths()
+    Stack!(Array!Id) allPaths()
     {
         Stack!(Array!Id) paths;
 
@@ -72,7 +72,7 @@ class Tree(T)
 
             if (!hasSuccessors(vertex))
             {
-                paths.insertFront(move(path.toArray()));
+                paths.push(move(path.toArray()));
                 backward = true;
             }
 
