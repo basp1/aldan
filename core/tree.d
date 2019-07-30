@@ -30,17 +30,22 @@ class Tree(T)
         return vertex;
     }
 
-    Array!Id getSuccessors(Id vertex)
+    T getVertex(Id vertex) const
+    {
+        return graph.getVertex(vertex).value;
+    }
+
+    Array!Id getSuccessors(Id vertex) const
     {
         return graph.getAdjacent(vertex);
     }
 
-    bool hasSuccessors(Id vertex)
+    bool hasSuccessors(Id vertex) const
     {
         return graph.hasEdges(vertex);
     }
 
-    Id getParent(Id vertex)
+    Id getParent(Id vertex) const
     {
         return graph.getVertex(vertex).parent;
     }
@@ -123,6 +128,17 @@ unittest
     assert(!t.hasSuccessors(j));
     assert(0 == t.getSuccessors(j).length);
 
+    assert('a' == t.getVertex(a));
+    assert('b' == t.getVertex(b));
+    assert('c' == t.getVertex(c));
+    assert('d' == t.getVertex(d));
+    assert('e' == t.getVertex(e));
+    assert('f' == t.getVertex(f));
+    assert('g' == t.getVertex(g));
+    assert('h' == t.getVertex(h));
+    assert('i' == t.getVertex(i));
+    assert('j' == t.getVertex(j));
+
     assert(t.root == t.getParent(a));
     assert(t.root == t.getParent(b));
     assert(a == t.getParent(c));
@@ -138,5 +154,4 @@ unittest
     assert(!paths.empty);
 
     assert(5 == paths.length);
-
 }

@@ -56,14 +56,14 @@ class Graph(V, E)
         return to!int(begin.length) - 1;
     }
 
-    V getVertex(Id vertex)
+    V getVertex(Id vertex) const
     {
         enforce(vertex >= 0 && vertex < begin.length);
 
         return vertices[vertex];
     }
 
-    bool hasEdges(Id vertex)
+    bool hasEdges(Id vertex) const
     {
         enforce(vertex >= 0 && vertex < begin.length);
 
@@ -77,7 +77,7 @@ class Graph(V, E)
         }
     }
 
-    bool hasEdge(Id from, Id to)
+    bool hasEdge(Id from, Id to) const
     {
         enforce(from >= 0 && from < begin.length);
         enforce(to >= 0);
@@ -200,7 +200,7 @@ class Graph(V, E)
         length -= n;
     }
 
-    Array!Id getAdjacent(Id vertex)
+    Array!Id getAdjacent(Id vertex) const
     {
         enforce(vertex >= 0 && vertex < begin.length);
 
@@ -214,7 +214,7 @@ class Graph(V, E)
         return adjacent;
     }
 
-    bool isLeaf(Id vertex)
+    bool isLeaf(Id vertex) const
     {
         enforce(vertex >= 0 && vertex < begin.length);
 
