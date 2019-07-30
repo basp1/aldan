@@ -19,6 +19,12 @@ class Stack(T)
         n++;
     }
 
+    void push(T value)
+    {
+        list.insertFront(value);
+        n++;
+    }
+
     T pop()
     {
         T value = top();
@@ -54,4 +60,35 @@ class Stack(T)
 
         return array;
     }
+}
+
+unittest
+{
+    auto s = new Stack!int();
+
+    assert(s.empty);
+    assert(0 == s.length);
+
+    s.push(1);
+    assert(!s.empty);
+    assert(1 == s.length);
+    assert(1 == s.top);
+
+    s.push(2);
+    assert(2 == s.length);
+    assert(2 == s.top);
+
+    int x = s.pop();
+    assert(2 == x);
+    assert(1 == s.length);
+    assert(1 == s.top);
+
+    s.push(2);
+    s.push(3);
+    auto xs = s.toArray();
+    assert(3 == xs.length);
+    assert(3 == xs[0]);
+    assert(2 == xs[1]);
+    assert(1 == xs[2]);
+    assert(3 == s.length);
 }
