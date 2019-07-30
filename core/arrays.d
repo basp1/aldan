@@ -130,7 +130,8 @@ void permute(T)(ref Array!T array, ref const Array!int indices)
 {
     assert(array.length == indices.length);
 
-    auto t = array.dup;
+    Array!T t;
+    t.length = array.length;
 
     for (int i = 0; i < t.length; i++)
     {
