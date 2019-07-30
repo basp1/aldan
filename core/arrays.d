@@ -3,7 +3,7 @@ module core.arrays;
 import std.container.array;
 import std.conv;
 
-int binarySearch(T)(Array!T array, T item)
+int binarySearch(T)(ref const Array!T array, T item)
 {
     assert(!array.empty());
 
@@ -50,7 +50,7 @@ unittest
     assert(-1 == binarySearch(array, 100));
 }
 
-int lowerBound(T)(Array!T array, T item)
+int lowerBound(T)(ref const Array!T array, T item)
 {
     int n = to!int(array.length()) - 1;
     int l = 0;

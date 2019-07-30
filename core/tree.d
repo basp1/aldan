@@ -1,5 +1,6 @@
 module core.tree;
 
+import core.lifetime;
 import std.container.array;
 import std.container.slist;
 import std.exception;
@@ -79,7 +80,7 @@ class Tree(T)
                 {
                     p ~= vertex;
                 }
-                paths.insertFront(p);
+                paths.insertFront(move(p));
                 backward = true;
             }
 
@@ -88,6 +89,9 @@ class Tree(T)
                 queue.insertFront(vertex);
             }
         }
+
+        destroy(queue);
+        destroy(path);
 
         return paths;
     }
