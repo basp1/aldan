@@ -25,7 +25,7 @@ class Tree(T)
 
     Id add(Id parent, const T value, float weight = 1)
     {
-        auto vertex = graph.addVertex(tuple(parent, value));
+        auto vertex = graph.addVertex(tuple!(Id, "parent", T, "value")(parent, value));
         graph.addEdge(parent, vertex, weight);
         return vertex;
     }
@@ -42,15 +42,15 @@ class Tree(T)
 
     Id getParent(Id vertex)
     {
-        return getVertex(vertex).parent;
+        return graph.getVertex(vertex).parent;
     }
 
     Stack!(Array!Id) allPaths()
     {
-        Stack!(Array!Id) paths;
+        auto paths = new Stack!(Array!Id)();
 
-        Stack!int path;
-        Stack!int queue;
+        auto path = new Stack!int();
+        auto queue = new Stack!int();
 
         queue.push(root);
         bool backward = false;
@@ -72,13 +72,14 @@ class Tree(T)
 
             if (!hasSuccessors(vertex))
             {
-                paths.push(move(path.toArray()));
+                auto array = path.toArray();
+                paths.push(array);
                 backward = true;
             }
 
-            foreach (vertex; hasSuccessors(vertex))
+            foreach (suc; getSuccessors(vertex))
             {
-                queue.push(vertex);
+                queue.push(suc);
             }
         }
 
@@ -87,4 +88,55 @@ class Tree(T)
 
         return paths;
     }
+}
+
+unittest
+{
+    auto t = new Tree!char();
+
+    auto a = t.add(t.root, 'a');
+    auto b = t.add(t.root, 'b');
+    auto c = t.add(a, 'c');
+    auto d = t.add(a, 'd');
+    auto e = t.add(b, 'e');
+    auto f = t.add(c, 'f');
+    auto g = t.add(d, 'g');
+    auto h = t.add(d, 'h');
+    auto i = t.add(d, 'i');
+    auto j = t.add(e, 'j');
+
+    assert(t.hasSuccessors(t.root));
+    assert(2 == t.getSuccessors(t.root).length);
+    assert(2 == t.getSuccessors(a).length);
+    assert(1 == t.getSuccessors(b).length);
+    assert(1 == t.getSuccessors(c).length);
+    assert(3 == t.getSuccessors(d).length);
+    assert(1 == t.getSuccessors(e).length);
+    assert(!t.hasSuccessors(f));
+    assert(0 == t.getSuccessors(f).length);
+    assert(!t.hasSuccessors(g));
+    assert(0 == t.getSuccessors(g).length);
+    assert(!t.hasSuccessors(h));
+    assert(0 == t.getSuccessors(h).length);
+    assert(!t.hasSuccessors(i));
+    assert(0 == t.getSuccessors(i).length);
+    assert(!t.hasSuccessors(j));
+    assert(0 == t.getSuccessors(j).length);
+
+    assert(t.root == t.getParent(a));
+    assert(t.root == t.getParent(b));
+    assert(a == t.getParent(c));
+    assert(a == t.getParent(d));
+    assert(b == t.getParent(e));
+    assert(c == t.getParent(f));
+    assert(d == t.getParent(g));
+    assert(d == t.getParent(h));
+    assert(d == t.getParent(i));
+    assert(e == t.getParent(j));
+
+    auto paths = t.allPaths();
+    assert(!paths.empty);
+
+    assert(5 == paths.length);
+
 }

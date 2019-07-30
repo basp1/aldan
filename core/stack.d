@@ -5,18 +5,18 @@ import std.container.slist;
 
 class Stack(T)
 {
-	size_t n;
+    size_t n;
     SList!T list;
 
     this()
     {
-		n = 0;
+        n = 0;
     }
 
     void push(ref T value)
     {
         list.insertFront(value);
-		n++;
+        n++;
     }
 
     T pop()
@@ -24,7 +24,7 @@ class Stack(T)
         T value = top();
 
         list.removeFront();
-		n--;
+        n--;
 
         return value;
     }
@@ -33,7 +33,6 @@ class Stack(T)
     {
         return n;
     }
-
 
     @property T top()
     {
