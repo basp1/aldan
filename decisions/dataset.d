@@ -1,5 +1,6 @@
 module decisions.dataset;
 
+import core.lifetime;
 import std.container.array;
 import std.exception;
 import std.typecons;
@@ -64,7 +65,7 @@ class Dataset(T)
             mapped ~= func(sample);
         }
 
-        return mapped;
+        return move(mapped);
     }
 
     Dataset!T filter(bool delegate(ref Sample!T) predicate)
@@ -79,6 +80,6 @@ class Dataset(T)
             }
         }
 
-        return that;
+        return move(that);
     }
 }
