@@ -5,7 +5,7 @@ import std.conv;
 
 int binarySearch(T)(Array!T array, T item)
 {
-	assert(!array.empty());
+    assert(!array.empty());
 
     int l = 0;
     int r = to!int(array.length()) - 1;
@@ -18,11 +18,11 @@ int binarySearch(T)(Array!T array, T item)
         {
             return m;
         }
-		else if (item < array[m])
+        else if (item < array[m])
         {
             r = m - 1;
         }
-		else
+        else
         {
             l = m + 1;
         }
@@ -33,7 +33,7 @@ int binarySearch(T)(Array!T array, T item)
 
 unittest
 {
-    auto array = Array!int(0,1,2,3,4,5,6,8,9,10);
+    auto array = Array!int(0, 1, 2, 3, 4, 5, 6, 8, 9, 10);
 
     assert(-1 == binarySearch(array, -10));
 
@@ -68,7 +68,7 @@ int lowerBound(T)(Array!T array, T item)
         {
             r = m - 1;
         }
-		else
+        else
         {
             l = m + 1;
         }
@@ -79,7 +79,7 @@ int lowerBound(T)(Array!T array, T item)
 
 unittest
 {
-    auto array = Array!int(0,1,2,3,4,5,6,8,9,10);
+    auto array = Array!int(0, 1, 2, 3, 4, 5, 6, 8, 9, 10);
 
     assert(0 == lowerBound(array, -10));
 
@@ -98,47 +98,47 @@ unittest
     assert(10 == lowerBound(array, 100));
 }
 
-void sorting(Key,Value)(ref Array!Key keys, ref Array!Value values, size_t from, size_t to)
+void sorting(Key, Value)(ref Array!Key keys, ref Array!Value values, size_t from, size_t to)
 {
-	import std.algorithm;
+    import std.algorithm;
 
-	assert(keys.length == values.length);
-	assert(to >= from && to <= keys.length);
+    assert(keys.length == values.length);
+    assert(to >= from && to <= keys.length);
 
-	Array!size_t indices;
-	indices.length = to - from;
-	for(int i=0; i<indices.length; i++)
-	{
-		indices[i] = from + i;
-	}
+    Array!size_t indices;
+    indices.length = to - from;
+    for (int i = 0; i < indices.length; i++)
+    {
+        indices[i] = from + i;
+    }
 
-	auto sorted = indices.dup;
-	sort!((a,b) => keys[a] < keys[b])(sorted[]);
+    auto sorted = indices.dup;
+    sort!((a, b) => keys[a] < keys[b])(sorted[]);
 
-	reindex(values, indices, sorted);
-	reindex(keys, indices, sorted);
+    reindex(values, indices, sorted);
+    reindex(keys, indices, sorted);
 
-	destroy(indices);
-	destroy(sorted);
+    destroy(indices);
+    destroy(sorted);
 }
 
 void reindex(T)(ref Array!T values, ref Array!size_t oldIndices, ref Array!size_t newIndices)
 {
-	assert(oldIndices.length == newIndices.length);
-	assert(oldIndices.length <= values.length);
+    assert(oldIndices.length == newIndices.length);
+    assert(oldIndices.length <= values.length);
 
-	size_t n = oldIndices.length;
-	auto t = values.dup;
+    size_t n = oldIndices.length;
+    auto t = values.dup;
 
-	for (int i = 0; i < n; i++)
-	{
-		t[i] = values[oldIndices[i]];
-	}
+    for (int i = 0; i < n; i++)
+    {
+        t[i] = values[oldIndices[i]];
+    }
 
-	for (int i = 0; i < n; i++)
-	{
-		values[newIndices[i]] = t[i];
-	}
+    for (int i = 0; i < n; i++)
+    {
+        values[newIndices[i]] = t[i];
+    }
 
-	destroy(t);
+    destroy(t);
 }
