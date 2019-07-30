@@ -15,7 +15,13 @@ class Sample(T)
     Array!Feature features;
     T output;
 
-    Feature opIndex(ref const Tag tag) const
+    this(Array!Feature features, T output)
+    {
+        this.features = features;
+        this.output = output;
+    }
+
+    Feature opIndex(ref const Tag tag)
     {
         foreach (feature; features)
         {
@@ -31,7 +37,7 @@ class Sample(T)
 
 class Dataset(T)
 {
-    Array!Sample samples;
+    Array!(Sample!T) samples;
     FlatMap!(UUID, Tag) tags;
 
     this()
@@ -39,23 +45,33 @@ class Dataset(T)
         tags = new FlatMap!(UUID, Tag)();
     }
 
-    void add(ref Sample sample)
+    void add(Sample!T sample)
     {
         samples ~= sample;
-        foreach (feature; sample.fatures)
+        foreach (feature; sample.features)
         {
             tags[feature.tag.id] = feature.tag;
         }
     }
 
-    Sample!T first() const
+    @property Sample!T first()
     {
         enforce(samples.length > 0);
 
         return samples[0];
     }
 
-    bool any(bool delegate(ref Sample!T) predicate)
+    @property bool empty()
+    {
+        return samples.empty;
+    }
+
+    @property size_t length()
+    {
+        return samples.length;
+    }
+
+    bool any(bool delegate(Sample!T) predicate)
     {
         foreach (sample; samples)
         {
@@ -68,7 +84,7 @@ class Dataset(T)
         return false;
     }
 
-    Array!U map(U)(U delegate(ref Sample!T) func)
+    Array!U map(U)(U delegate(Sample!T) func)
     {
         Array!U mapped;
         mapped.reserve(samples.length);
@@ -81,7 +97,7 @@ class Dataset(T)
         return move(mapped);
     }
 
-    Dataset!T filter(bool delegate(ref Sample!T) predicate)
+    Dataset!T filter(bool delegate(Sample!T) predicate)
     {
         auto that = new Dataset!T();
 

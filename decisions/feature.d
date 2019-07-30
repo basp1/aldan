@@ -46,6 +46,11 @@ class Feature
         tag.add(this);
     }
 
+    this(Tag tag, string name, double value)
+    {
+        this(tag, name, value, value);
+    }
+
     double distance(double value)
     {
         if (value > spanBegin && value < spanEnd)
