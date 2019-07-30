@@ -249,12 +249,12 @@
    <File path="core\graph.d" />
    <File path="core\priorityqueue.d" />
    <File path="core\timeseries.d" />
+   <File path="core\tree.d" />
   </Folder>
   <Folder name="decisions">
    <File path="decisions\dataset.d" />
    <File path="decisions\feature.d" />
    <File path="decisions\id3.d" />
-   <File path="decisions\tree.d" />
   </Folder>
   <File path="main.d" />
  </Folder>

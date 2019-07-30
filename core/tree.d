@@ -1,4 +1,4 @@
-module decisions.tree;
+module core.tree;
 
 import std.container.array;
 import std.container.slist;
