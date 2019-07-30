@@ -98,46 +98,48 @@ unittest
     assert(10 == lowerBound(array, 100));
 }
 
-void sorting(Key, Value)(ref Array!Key keys, ref Array!Value values, size_t from, size_t to)
+Array!int iota(int begin, int end)
+{
+    Array!int array;
+    array.reserve(end - begin);
+
+    for (int i = begin; i < end; i++)
+    {
+        array ~= i;
+    }
+
+    return array;
+}
+
+void sorting(Key, Value)(ref Array!Key keys, ref Array!Value values)
 {
     import std.algorithm;
 
     assert(keys.length == values.length);
-    assert(to >= from && to <= keys.length);
 
-    Array!size_t indices;
-    indices.length = to - from;
-    for (int i = 0; i < indices.length; i++)
-    {
-        indices[i] = from + i;
-    }
-
-    auto sorted = indices.dup;
+    auto sorted = iota(0, to!int(keys.length));
     sort!((a, b) => keys[a] < keys[b])(sorted[]);
 
-    reindex(values, indices, sorted);
-    reindex(keys, indices, sorted);
+    permute(values, sorted);
+    permute(keys, sorted);
 
-    destroy(indices);
     destroy(sorted);
 }
 
-void reindex(T)(ref Array!T values, ref Array!size_t oldIndices, ref Array!size_t newIndices)
+void permute(T)(ref Array!T array, ref const Array!int indices)
 {
-    assert(oldIndices.length == newIndices.length);
-    assert(oldIndices.length <= values.length);
+    assert(array.length == indices.length);
 
-    size_t n = oldIndices.length;
-    auto t = values.dup;
+    auto t = array.dup;
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < t.length; i++)
     {
-        t[i] = values[oldIndices[i]];
+        t[i] = array[indices[i]];
     }
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < t.length; i++)
     {
-        values[newIndices[i]] = t[i];
+        array[i] = t[i];
     }
 
     destroy(t);

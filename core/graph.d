@@ -325,8 +325,6 @@ class Graph(V, E)
         size_t n = begin.length;
         for (int i = 0; i < n; i++)
         {
-            int count = 0;
-
             sorted.length = 0;
             index.length = 0;
             int j = begin[i];
@@ -336,22 +334,21 @@ class Graph(V, E)
                 sorted ~= end[j];
                 index ~= j;
                 j = next[j];
-                count += 1;
             }
 
-            if (count < 2)
+            if (sorted.length < 2)
             {
                 continue;
             }
 
-            sorting(sorted, index, 0, count);
+            sorting(sorted, index);
 
-            for (j = 1; j < count; j++)
+            for (j = 1; j < sorted.length; j++)
             {
                 next[index[j - 1]] = index[j];
 
                 begin[i] = index[0];
-                next[index[count - 1]] = NIL;
+                next[index[sorted.length - 1]] = NIL;
             }
         }
 
