@@ -1,17 +1,29 @@
 module decisions.feature;
 
+import std.exception;
 import std.math;
 import std.uuid;
 
+import core.flatmap;
+
 class Tag
 {
-    string name;
     UUID id;
+    string name;
+    FlatMap!(UUID, Feature) features;
 
     this(string name)
     {
         id = randomUUID();
+        features = new FlatMap!(UUID, Feature)();
         this.name = name;
+    }
+
+    void add(Feature feature)
+    {
+        enforce(!features.contains(feature.id));
+
+        features[feature.id] = feature;
     }
 }
 
@@ -30,6 +42,8 @@ class Feature
         this.name = name;
         this.spanBegin = spanBegin;
         this.spanEnd = spanEnd;
+
+        tag.add(this);
     }
 
     double distance(double value)

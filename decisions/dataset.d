@@ -10,10 +10,23 @@ import std.uuid;
 import core.flatmap;
 import decisions.feature;
 
-struct Sample(T)
+class Sample(T)
 {
     Array!Feature features;
     T output;
+
+    Feature opIndex(ref const Tag tag) const
+    {
+        foreach (feature; features)
+        {
+            if (feature.tag.id == tag.id)
+            {
+                return feature;
+            }
+        }
+
+        throw new Exception("tag not found");
+    }
 }
 
 class Dataset(T)
