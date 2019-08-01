@@ -14,6 +14,7 @@ run("test/core/flatmap")
 run("test/core/graph")
 run("test/core/priority_queue")
 run("test/core/stack")
+run("test/core/timeseries")
 run("test/core/tree")
 
 local stop = os.clock()
