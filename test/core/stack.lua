@@ -26,9 +26,9 @@ test[#test+1] = function()
   s:push(3)
   local xs = s:toArray()
   assert(3 == len(xs))
-  assert(3 == xs[0])
+  assert(1 == xs[0])
   assert(2 == xs[1])
-  assert(1 == xs[2])
+  assert(3 == xs[2])
   assert(3 == s:length())
 end
 
