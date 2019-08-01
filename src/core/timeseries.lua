@@ -72,10 +72,10 @@ function timeseries.interval(self, from, to)
 
   local index = lowerBound(self.times, from)
 
-  local n = self.length()
+  local n = self:length()
   local i = index
   while i < n and self.times[i] < to do
-    ts.insert(self.times[i], self.items[i])
+    ts:insert(self.times[i], self.items[i])
     i = i + 1
   end
 
