@@ -8,5 +8,6 @@ function run(testname)
 end
 
 run("test/core/arrays")
+run("test/core/flatmap")
 run("test/core/graph")
 run("test/core/stack")
