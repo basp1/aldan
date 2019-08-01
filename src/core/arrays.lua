@@ -1,9 +1,13 @@
 function len(array)
   local n = #array
-  if nil ~= array[0] then
+  if array[0] then
     n = n + 1
   end
   return n
+end
+
+function last(array)
+  return array[len(array) - 1]
 end
 
 function copy(array, from, to)
