@@ -1,3 +1,5 @@
+math.randomseed(os.time())
+
 function run(testname)
   print("run " .. testname)
   local test = require(testname)
@@ -17,6 +19,8 @@ run("test/core/priority_queue")
 run("test/core/stack")
 run("test/core/timeseries")
 run("test/core/tree")
+
+run("test/decisions/dataset")
 
 local stop = os.clock()
 
