@@ -14,7 +14,7 @@ function priority_queue.new(selectFunc)
 end
 
 function priority_queue.push(self, value)
-  local t index = self.length
+  local index = self.length
 
   if len(self.values) <= index then
     self.values[len(self.values)] = value
