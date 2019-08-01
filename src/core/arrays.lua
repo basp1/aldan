@@ -23,6 +23,42 @@ function copy(array, from, to)
   return t
 end
 
+function concat(array1, array2)
+  local t = copy(array1)
+
+  for i=0,len(array2) do
+    t[len(t)] = array2[i]
+  end
+
+  return t
+end
+
+function remove(array, index)
+  local t = {}
+
+  for i=0,len(array) do
+    if i ~= index then
+      t[len(t)] = array[i]
+    end
+  end
+
+  return t
+end
+
+function insert(array, index, value)
+  local t = {}
+
+  for i=0,len(array) do
+    if i == index then
+      t[len(t)] = value
+    end
+    t[len(t)] = array[i]
+
+  end
+
+  return t
+end
+
 function lowerBound(array, item)
   local n = len(array) - 1
   local l = 0
