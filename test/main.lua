@@ -10,4 +10,7 @@ end
 run("test/core/arrays")
 run("test/core/flatmap")
 run("test/core/graph")
+run("test/core/priority_queue")
 run("test/core/stack")
+
+print("ok")
