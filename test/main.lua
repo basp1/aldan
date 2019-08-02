@@ -1,12 +1,12 @@
 math.randomseed(os.time())
 
 function run(testname)
-  print("run " .. testname)
-  local test = require(testname)
-  for name,func in pairs(test) do
-    func()
-    print(name .. " passed")
-  end
+    print("run " .. testname)
+    local test = require(testname)
+    for name, func in pairs(test) do
+        func()
+        print(name .. " passed")
+    end
 end
 
 local start = os.clock()
@@ -28,4 +28,4 @@ run("test/decisions/id3")
 local stop = os.clock()
 
 print("")
-print("All tests passed (" .. math.floor(1e3 * (stop-start)) .. "ms)" )
+print("All tests passed (" .. math.floor(1e3 * (stop - start)) .. "ms)")

@@ -4,126 +4,126 @@ local priority_queue = {}
 priority_queue.__index = priority_queue
 
 function priority_queue.new(selectFunc)
-  local self = setmetatable({}, priority_queue)
+    local self = setmetatable({}, priority_queue)
 
-  self.values = {}
-  self.selectFunc = selectFunc
-  self.length = 0
+    self.values = {}
+    self.selectFunc = selectFunc
+    self.length = 0
 
-  return self
+    return self
 end
 
 function priority_queue.push(self, value)
-  local index = self.length
+    local index = self.length
 
-  if len(self.values) <= index then
-    self.values[len(self.values)] = value
-  else
-    self.values[index] = value
-  end
+    if len(self.values) <= index then
+        self.values[len(self.values)] = value
+    else
+        self.values[index] = value
+    end
 
-  self.length = self.length + 1
+    self.length = self.length + 1
 
-  self:promote(index)
+    self:promote(index)
 end
 
 function priority_queue.pop(self)
-  assert(self.length > 0)
+    assert(self.length > 0)
 
-  local t = self:top()
+    local t = self:top()
 
-  if 1 == self.length then
-    self.length = 0
-  else
-    local last = self.values[self.length - 1]
-    self.values[0] = last
-    self.length = self.length - 1
+    if 1 == self.length then
+        self.length = 0
+    else
+        local last = self.values[self.length - 1]
+        self.values[0] = last
+        self.length = self.length - 1
 
-    self:demote(0)
-  end
+        self:demote(0)
+    end
 
-  return t
+    return t
 end
 
 function priority_queue.top(self)
-  assert(self.length > 0)
+    assert(self.length > 0)
 
-  return self.values[0]
+    return self.values[0]
 end
 
 function priority_queue.height(self)
-  return 1 + math.floor(math.log(self.length) / math.log(2))
+    return 1 + math.floor(math.log(self.length) / math.log(2))
 end
 
 function priority_queue.promote(self, index)
-  assert(index >= 0 and index < self.length)
+    assert(index >= 0 and index < self.length)
 
-  if 0 == index then
-    return
-  end
-
-  local parent = math.floor(index / 2)
-
-  while index > 0 do
-    local t = self.values[index]
-
-    if t ~= self.selectFunc(t, self.values[parent])
-    then
-      break
+    if 0 == index then
+        return
     end
 
-    self.values[index] = self.values[parent]
-    self.values[parent] = t
+    local parent = math.floor(index / 2)
 
-    local next = parent
-    parent = math.floor(index / 2)
-    index = next
-  end
+    while index > 0 do
+        local t = self.values[index]
+
+        if t ~= self.selectFunc(t, self.values[parent])
+        then
+            break
+        end
+
+        self.values[index] = self.values[parent]
+        self.values[parent] = t
+
+        local next = parent
+        parent = math.floor(index / 2)
+        index = next
+    end
 end
 
 function priority_queue.demote(self, index)
-  assert(index >= 0 and index < self.length)
+    assert(index >= 0 and index < self.length)
 
-  if self.length == (1 + index) then
-    return
-  end
-
-  local value = self.values[index]
-
-  while index < self.length do
-    local right = (1 + index) * 2
-    local rv
-    if right < self.length then
-      rv = self.values[right]
+    if self.length == (1 + index) then
+        return
     end
 
-    local left = right - 1
-    local lv
-    if left < self.length then
-      lv = self.values[left]
-    end
+    local value = self.values[index]
 
-    local child = -1
-    if right < self.length and left < self.length and lv == self.selectFunc(lv, rv)
-    then
-      child = left
-    elseif right < self.length
-    then
-      child = right
-    elseif left < self.length
-    then
-      child = left
-    end
+    while index < self.length do
+        local right = (1 + index) * 2
+        local rv
+        if right < self.length then
+            rv = self.values[right]
+        end
 
-    if child < 0 or value == self.selectFunc(value, self.values[child])
-    then
-      break
-    else
-      self.values[index] = self.values[child]
-      self.values[child] = value
-      index = child
+        local left = right - 1
+        local lv
+        if left < self.length then
+            lv = self.values[left]
+        end
+
+        local child = -1
+        if right < self.length and left < self.length and lv == self.selectFunc(lv, rv)
+        then
+            child = left
+        elseif right < self.length
+        then
+            child = right
+        elseif left < self.length
+        then
+            child = left
+        end
+
+        if child < 0 or value == self.selectFunc(value, self.values[child])
+        then
+            break
+        else
+            self.values[index] = self.values[child]
+            self.values[child] = value
+            index = child
+        end
     end
-  end
 end
 
 return priority_queue

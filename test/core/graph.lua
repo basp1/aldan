@@ -2,25 +2,25 @@ local graph = require "src/core/graph"
 
 local test = {}
 
-test[#test+1] = function()
-  local g = graph.new()
-  local a = g:add_vertex('a')
-  local b = g:add_vertex('b')
-  local c = g:add_vertex('c')
+test[#test + 1] = function()
+    local g = graph.new()
+    local a = g:add_vertex('a')
+    local b = g:add_vertex('b')
+    local c = g:add_vertex('c')
 
-  g:add_edge(a, a, '-')
-  g:add_edge(b, a, '-')
+    g:add_edge(a, a, '-')
+    g:add_edge(b, a, '-')
 
-  assert(g:has_edge(a, a))
-  assert(g:has_edge(b, a))
+    assert(g:has_edge(a, a))
+    assert(g:has_edge(b, a))
 
-  assert(not g:has_edge(a, b))
-  assert(not g:has_edge(b, b))
-  assert(not g:has_edge(c, a))
-  assert(not g:has_edge(c, b))
+    assert(not g:has_edge(a, b))
+    assert(not g:has_edge(b, b))
+    assert(not g:has_edge(c, a))
+    assert(not g:has_edge(c, b))
 end
 
-test[#test+1] = function()
+test[#test + 1] = function()
     local g = graph.new()
     local a = g:add_vertex('a')
     local b = g:add_vertex('b')
@@ -52,7 +52,7 @@ test[#test+1] = function()
     assert(not g:has_edge(a, b))
 end
 
-test[#test+1] = function()
+test[#test + 1] = function()
     local g = graph.new()
     local a = g:add_vertex('a')
     local b = g:add_vertex('b')
@@ -84,7 +84,7 @@ test[#test+1] = function()
     assert(e:equals(g))
 end
 
-test[#test+1] = function()
+test[#test + 1] = function()
     local g = graph.new()
     local a = g:add_vertex('a')
     local b = g:add_vertex('b')
@@ -119,7 +119,7 @@ test[#test+1] = function()
     assert(e:equals(g))
 end
 
-test[#test+1] = function()
+test[#test + 1] = function()
     local g = graph.new()
     local a = g:add_vertex('a')
     local b = g:add_vertex('b')
@@ -158,7 +158,7 @@ test[#test+1] = function()
     assert(e:equals(g))
 end
 
-test[#test+1] = function()
+test[#test + 1] = function()
     local g = graph.new()
     local a = g:add_vertex('a')
     local b = g:add_vertex('b')

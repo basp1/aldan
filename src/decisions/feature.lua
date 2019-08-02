@@ -4,51 +4,51 @@ local feature = {}
 feature.__index = feature
 
 function feature.new(name)
-  local self = setmetatable({}, feature)
+    local self = setmetatable({}, feature)
 
-  self.id = math.random()
-  self.name = name
-  self.cases = {}
+    self.id = math.random()
+    self.name = name
+    self.cases = {}
 
-  return self
+    return self
 end
 
 local case = {}
 case.__index = case
 
 function case.new(feature, name, from, to)
-  local self = setmetatable({}, case)
+    local self = setmetatable({}, case)
 
-  self.id = math.random()
-  self.feature = feature 
-  self.name = name
-  self.from = from
-  self.to = to
+    self.id = math.random()
+    self.feature = feature
+    self.name = name
+    self.from = from
+    self.to = to
 
-  return self
+    return self
 end
 
 function case.distance(self, value)
-  if value > self.from and value < self.to then
-    return 0
-  else
-    return math.min(math.abs(value - self.from), abs(value - self.ti))
-  end
+    if value > self.from and value < self.to then
+        return 0
+    else
+        return math.min(math.abs(value - self.from), math.abs(value - self.ti))
+    end
 end
 
 function feature.add(self, x, from, to)
-  if nil == to then
-    to = from
-  end
-  if nil ~= from then
-    x = case.new(self, x, from, to)
-  end
+    if nil == to then
+        to = from
+    end
+    if nil ~= from then
+        x = case.new(self, x, from, to)
+    end
 
-  assert(nil == self.cases[x.id])
+    assert(nil == self.cases[x.id])
 
-  self.cases[x.id] = x
+    self.cases[x.id] = x
 
-  return x
+    return x
 end
 
 return feature
