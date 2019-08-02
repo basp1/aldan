@@ -34,6 +34,12 @@ function dataset.add(self, x, output)
     self.samples[len(self.samples)] = x
 end
 
+function dataset.get(self, index)
+    assert(index >=0 and index < self:length())
+
+    return self.samples[index]
+end
+
 function dataset.first(self)
     return first(self.samples)
 end

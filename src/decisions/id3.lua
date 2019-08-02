@@ -4,19 +4,22 @@ local decision_tree = require("src/decisions/decision_tree")
 local id3 = {}
 id3.__index = id3
 
-local function entropy(cases)
+local function entropy(dataset, feature)
     local probs = {}
 
-    for i = 0, len(cases) - 1 do
-        local case = cases[i]
+    for i = 0, dataset:length() - 1 do
+        local sample = dataset:get(i)
+        local case = sample:find_if(function (case) return case.feature == feature end)
+
         if nil == probs[case.id] then
             probs[case.id] = 0
         end
+
         probs[case.id] = probs[case.id] + 1
     end
 
     for id in pairs(probs) do
-        probs[id] = probs[id] / len(cases)
+        probs[id] = probs[id] / dataset:length()
     end
 
     local sum = 0
@@ -47,11 +50,7 @@ local function build(dataset, features, tree, parent)
     local min = 1e100
     for i = 0, len(features) - 1 do
         local feature = features[i]
-        local metric = entropy(dataset:map(function(sample)
-            return sample:find_if(function(case)
-                return case.feature == feature
-            end)
-        end))
+        local metric = entropy(dataset, feature)
         if metric > 0 and metric < min then
             winner = feature
             min = metric
