@@ -5,26 +5,37 @@ local id3 = {}
 id3.__index = id3
 
 local function entropy(dataset, feature)
-    local probs = {}
+    local freqs = {}
 
     for i = 0, dataset:length() - 1 do
         local sample = dataset:get(i)
-        local case = sample:find_if(function (case) return case.feature == feature end)
+        local case = sample:find_if(function (case) return case.feature.id == feature.id end)
 
-        if nil == probs[case.id] then
-            probs[case.id] = 0
+        if nil == freqs[case.id] then
+            freqs[case.id] = { 0, {}}
         end
+        freqs[case.id][1] = freqs[case.id][1] + 1
 
-        probs[case.id] = probs[case.id] + 1
+        if nil == freqs[case.id][2][sample.output] then
+            freqs[case.id][2][sample.output] = 0
+        end
+        freqs[case.id][2][sample.output] = freqs[case.id][2][sample.output] + 1
     end
 
-    for id in pairs(probs) do
-        probs[id] = probs[id] / dataset:length()
+    for id in pairs(freqs) do
+        for key in pairs(freqs[id][2]) do
+            freqs[id][2][key] = freqs[id][2][key] / freqs[id][1]
+        end
+        freqs[id][1] = freqs[id][1] / dataset:length()
     end
 
     local sum = 0
-    for _, prob in pairs(probs) do
-        sum = sum + (-prob * math.log(prob) / math.log(2))
+    for _, freq in pairs(freqs) do
+        local s = 0
+        for _, n in pairs(freq[2]) do
+            s = s + (-n*math.log(n)/math.log(2))
+        end
+        sum = sum + (freq[1] * s)
     end
 
     return sum
@@ -37,12 +48,7 @@ local function build(dataset, features, tree, parent)
         return first ~= sample.output;
     end)
     if allTheSame then
-        local outputs = dataset:map(function(sample)
-            return sample.output
-        end)
-
-        tree:add(parent, 'item', outputs)
-
+        tree:add(parent, 'item', {[0]=first})
         return
     end
 
@@ -51,7 +57,7 @@ local function build(dataset, features, tree, parent)
     for i = 0, len(features) - 1 do
         local feature = features[i]
         local metric = entropy(dataset, feature)
-        if metric > 0 and metric < min then
+        if metric < min then
             winner = feature
             min = metric
         end
@@ -72,17 +78,12 @@ local function build(dataset, features, tree, parent)
                 end)
             end)
 
-            local sucFeatures = {}
-            for i = 0, len(features) - 1 do
-                local feature = features[i]
-                if feature.id ~= winner.id then
-                    sucFeatures[len(sucFeatures)] = feature
-                end
-            end
+            local sucFeatures = filter(features,function(feature)
+                return feature.id ~= winner.id
+            end)
 
             if not sucDataset:empty() then
                 local suc = tree:add(node, 'case', case)
-
                 build(sucDataset, sucFeatures, tree, suc)
             end
         end
