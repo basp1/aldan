@@ -23,13 +23,8 @@ function dataset.sample(values, output)
   return self
 end
 
-function sample.find(self, predicate)
-  for i=0,len(self.values)-1 do
-    if predicate(self.values[i]) then
-      return self.values[i]
-    end
-  end
-  return nil
+function sample.find_if(self, predicate)
+  return find_if(self.values, predicate)
 end
 
 function dataset.add(self, x, output)
@@ -40,15 +35,11 @@ function dataset.add(self, x, output)
 end
 
 function dataset.first(self)
-  assert(self:length() > 0)
-
-  return self.samples[0]
+  return first(self.samples)
 end
 
 function dataset.last(self)
-  assert(self:length() > 0)
-
-  return self.samples[self:length()-1]
+  return last(self.samples)
 end
 
 function dataset.empty(self)
@@ -60,40 +51,23 @@ function dataset.length(self)
 end
 
 function dataset.any(self, predicate)
-  for i=0,self:length()-1 do
-    if predicate(self.samples[i]) then
-      return true
-    end
-  end
-  return false
+  return any(self.samples, predicate)
 end
 
 function dataset.all(self, predicate)
-  for i=0,self:length()-1 do
-    if not predicate(self.samples[i]) then
-      return false
-    end
-  end
-  return true
+  return all(self.samples, predicate)
 end
 
 function dataset.map(self, func)
-  local mapped = {}
-
-  for i=0,self:length()-1 do
-    mapped[len(mapped)] = func(self.samples[i])
-  end
-
-  return mapped
+  return map(self.samples, func)
 end
 
 function dataset.filter(self, predicate)
   local that = dataset.new()
+  local filtered = filter(self.samples, predicate)
 
-  for i=0,self:length()-1 do
-    if predicate(self.samples[i]) then
-      that.add(self.samples[i])
-    end
+  for i=0,len(filtered)-1 do
+    that.add(filtered[i])
   end
 
   return that
