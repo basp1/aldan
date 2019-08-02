@@ -76,7 +76,7 @@ local function build(dataset, features, tree, parent)
       end
 
       if not sucDataset:empty() then
-        local suc = tree:add(node, 'feature', feature)
+        local suc = tree:add(node, 'case', case)
 
         build(sucDataset, sucFeatures, tree, suc)
       end
