@@ -6,8 +6,65 @@ function len(array)
   return n
 end
 
+function first(array)
+  assert(len(array) > 0)
+
+  return array[0]
+end
+
 function last(array)
+  assert(len(array) > 0)
+
   return array[len(array) - 1]
+end
+
+function any(array, predicate)
+  for i=0,len(array)-1 do
+    if predicate(array[i]) then
+      return true
+    end
+  end
+  return false
+end
+
+function all(array, predicate)
+  for i=0,len(array)-1 do
+    if not predicate(array[i]) then
+      return false
+    end
+  end
+  return true
+end
+
+function map(array, func)
+  local mapped = {}
+
+  for i=0,len(array)-1 do
+    mapped[len(mapped)] = func(array[i])
+  end
+
+  return mapped
+end
+
+function filter(array, predicate)
+  local filtered = {}
+
+  for i=0,len(array)-1 do
+    if predicate(array[i]) then
+      filtered[len(filtered)] = array[i]
+    end
+  end
+
+  return filtered
+end
+
+function find_if(array, predicate)
+  for i=0,len(array)-1 do
+    if predicate(array[i]) then
+      return array[i]
+    end
+  end
+  return nil
 end
 
 function copy(array, from, to)
