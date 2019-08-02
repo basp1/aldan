@@ -21,7 +21,8 @@ run("test/core/timeseries")
 run("test/core/tree")
 
 run("test/decisions/dataset")
-run("test/decisions/decisions_tree")
+run("test/decisions/decision_tree")
+run("test/decisions/id3")
 
 local stop = os.clock()
 
