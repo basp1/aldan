@@ -1,10 +1,10 @@
-local decisions_tree = require "src/decisions/decisions_tree"
+local decision_tree = require "src/decisions/decision_tree"
 local feature = require "src/decisions/feature"
 
 local test = {}
 
 test[#test+1] = function()
-  local dt = decisions_tree.new()
+  local dt = decision_tree.new()
 
   local temp = feature.new("Temp")
   local cool = temp:add("cool", -100, 0)

@@ -1,11 +1,11 @@
 require "src/core/arrays"
 local Tree = require "src/core/tree"
 
-local decisions_tree = {}
-decisions_tree.__index = decisions_tree
+local decision_tree = {}
+decision_tree.__index = decision_tree
 
-function decisions_tree.new()
-  local self = setmetatable({}, decisions_tree)
+function decision_tree.new()
+  local self = setmetatable({}, decision_tree)
 
   self.tree = Tree.new()
 
@@ -26,12 +26,12 @@ function node.new(type, value)
   return self
 end
 
-function decisions_tree.add(self, parent, type, value)
+function decision_tree.add(self, parent, type, value)
   return self.tree:add(parent, node.new(type, value))
 end
 
-function decisions_tree.root(self)
+function decision_tree.root(self)
   return self.tree.root
 end
 
-return decisions_tree
+return decision_tree
