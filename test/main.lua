@@ -22,6 +22,7 @@ run("test/core/tree")
 
 run("test/decisions/dataset")
 run("test/decisions/decision_tree")
+run("test/decisions/feature")
 run("test/decisions/id3")
 
 local stop = os.clock()
