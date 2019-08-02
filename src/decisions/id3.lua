@@ -30,7 +30,7 @@ end
 local function build(dataset, features, tree, parent)
   local first = dataset:first().output
 
-  local allTheSame = not dataset.any(function (sample) return first ~= sample.output; end)
+  local allTheSame = not dataset:any(function (sample) return first ~= sample.output; end)
   if allTheSame then
     local outputs = dataset:map(function (sample) return sample.output end)
 
@@ -49,7 +49,7 @@ local function build(dataset, features, tree, parent)
       end)
     end))
     if metric > 0 and metric < min then
-      winner = tag
+      winner = feature
       min = metric
     end
   end
@@ -65,7 +65,7 @@ local function build(dataset, features, tree, parent)
 
       local sucDataset = dataset:filter(function (sample)
         return sample.find_if(function (c)
-          return c == feature
+          return c == case
         end)
       end)
 
@@ -78,7 +78,7 @@ local function build(dataset, features, tree, parent)
       end
 
       if not sucDataset:empty() then
-        local suc = tree.add(node, Node(Node.Type.Feature, feature))
+        local suc = tree:add(node, 'feature', feature)
 
         build(sucDataset, sucFeatures, tree, suc)
       end

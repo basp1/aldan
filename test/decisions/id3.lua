@@ -17,7 +17,7 @@ test[#test+1] = function()
 
   local humidity = Feature.new("Humidity")
   local low = humidity:add("low", 0)
-  local normal humidity:add("normal", 1)
+  local normal = humidity:add("normal", 1)
   local high = humidity:add("high", 2)
 
   local wind = Feature.new("Wind")
