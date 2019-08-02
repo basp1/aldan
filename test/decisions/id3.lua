@@ -5,26 +5,49 @@ local Id3 = require "src/decisions/id3"
 
 local test = {}
 
+local outlook = Feature.new("Outlook")
+local sunny = outlook:add("sunny", 0)
+local overcast = outlook:add("overcast", 1)
+local rainy = outlook:add("rainy", 2)
+
+local temp = Feature.new("Temp")
+local cool = temp:add("cool", -100, 0)
+local mild = temp:add("mild", 0, 15)
+local hot = temp:add("hot", 15, 100)
+
+local humidity = Feature.new("Humidity")
+local low = humidity:add("low", 0)
+local normal = humidity:add("normal", 1)
+local high = humidity:add("high", 2)
+
+local wind = Feature.new("Wind")
+local calm = wind:add("calm", 0)
+local windy = wind:add("windy", 1)
+
 test[#test + 1] = function()
-    local outlook = Feature.new("Outlook")
-    local sunny = outlook:add("sunny", 0)
-    local overcast = outlook:add("overcast", 1)
-    local rainy = outlook:add("rainy", 2)
+    local dataset = Dataset.new()
+    dataset:add({ [0] = sunny, hot, high, calm }, false)
+    dataset:add({ [0] = sunny, hot, high, windy }, false)
+    dataset:add({ [0] = overcast, hot, high, calm }, true)
+    dataset:add({ [0] = rainy, mild, high, calm }, true)
+    dataset:add({ [0] = rainy, cool, normal, calm }, true)
+    dataset:add({ [0] = rainy, cool, normal, windy }, false)
+    dataset:add({ [0] = overcast, cool, normal, windy }, true)
+    dataset:add({ [0] = sunny, mild, high, calm }, false)
+    dataset:add({ [0] = sunny, cool, normal, calm }, true)
+    dataset:add({ [0] = rainy, mild, normal, calm }, true)
+    dataset:add({ [0] = sunny, mild, normal, windy }, true)
+    dataset:add({ [0] = overcast, mild, high, windy }, true)
+    dataset:add({ [0] = overcast, hot, normal, calm }, true)
+    dataset:add({ [0] = rainy, mild, high, windy }, false)
 
-    local temp = Feature.new("Temp")
-    local cool = temp:add("cool", -100, 0)
-    local mild = temp:add("mild", 0, 15)
-    local hot = temp:add("hot", 15, 100)
+    local tree = Id3.build(dataset, { [0] = outlook, temp, humidity, wind })
+    local paths = tree.tree:all_paths()
 
-    local humidity = Feature.new("Humidity")
-    local low = humidity:add("low", 0)
-    local normal = humidity:add("normal", 1)
-    local high = humidity:add("high", 2)
+    assert(5 == paths:length())
+end
 
-    local wind = Feature.new("Wind")
-    local calm = wind:add("calm", 0)
-    local windy = wind:add("windy", 1)
-
+test[#test + 1] = function()
     local dataset = Dataset.new()
     dataset:add({ [0] = rainy, hot, high, calm }, 26)
     dataset:add({ [0] = rainy, hot, high, windy }, 30)
@@ -51,22 +74,6 @@ test[#test + 1] = function()
     tree = Id3.build(dataset, { [0] = outlook, temp, humidity, wind })
     paths = tree.tree:all_paths()
     assert(14 == paths:length())
-
-    local tweens = {}
-    local vertices = tree.tree.graph.vertices
-    for i = 1, len(vertices) - 1 do
-        local node = vertices[i].value
-
-        if node.type == 'item' then
-            if 2 == len(node.value) then
-                tweens = node.value
-            end
-        end
-    end
-
-    assert(2 == len(tweens))
-    assert(30 == tweens[0])
-    assert(31 == tweens[1])
 end
 
 return test
