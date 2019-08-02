@@ -43,8 +43,30 @@ test[#test+1] = function()
 
   local tree = Id3.build(dataset, {[0]=outlook, temp, humidity, wind})
   local paths = tree.tree:all_paths()
-  
+
   assert(14 == paths:length())
+
+  dataset:add({[0]=sunny, mild, high, windy}, 31)
+
+  tree = Id3.build(dataset, {[0]=outlook, temp, humidity, wind})
+  paths = tree.tree:all_paths()
+  assert(14 == paths:length())
+
+  local tweens = {}
+  local vertices = tree.tree.graph.vertices
+  for i=1,len(vertices)-1 do
+    local node = vertices[i].value
+
+    if node.type == 'item' then
+      if 2 == len(node.value) then
+        tweens = node.value
+      end
+    end
+  end
+
+  assert(2 == len(tweens))
+  assert(30 == tweens[0])
+  assert(31 == tweens[1])
 end
 
 return test
