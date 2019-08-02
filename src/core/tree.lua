@@ -9,7 +9,7 @@ function tree.new()
   local self = setmetatable({}, tree)
 
   self.graph = graph:new()
-  self.root = self.graph:addVertex(nil)
+  self.root = self.graph:add_vertex(nil)
 
   return self
 end
@@ -19,28 +19,28 @@ function tree.add(self, parent, value, weight)
     weight = 1
   end
 
-  local vertex = self.graph:addVertex({parent=parent, value=value})
-  self.graph:addEdge(parent, vertex, weight)
+  local vertex = self.graph:add_vertex({parent=parent, value=value})
+  self.graph:add_edge(parent, vertex, weight)
   return vertex
 end
 
-function tree.getVertex(self, vertex)
-  return self.graph:getVertex(vertex).value
+function tree.get_vertex(self, vertex)
+  return self.graph:get_vertex(vertex).value
 end
 
-function tree.getSuccessors(self, vertex)
-  return self.graph:getAdjacent(vertex)
+function tree.get_successors(self, vertex)
+  return self.graph:get_adjacent(vertex)
 end
 
-function tree.hasSuccessors(self, vertex)
-  return self.graph:hasEdges(vertex)
+function tree.has_successors(self, vertex)
+  return self.graph:has_edges(vertex)
 end
 
-function tree.getParent(self, vertex)
-  return self.graph:getVertex(vertex).parent
+function tree.get_parent(self, vertex)
+  return self.graph:get_vertex(vertex).parent
 end
 
-function tree.allPaths(self)
+function tree.all_paths(self)
   local paths = stack:new()
   local path = stack:new()
   local queue = stack:new()
@@ -52,20 +52,20 @@ function tree.allPaths(self)
     local vertex = queue:pop()
 
     if backward then
-      local parent = self:getParent(vertex)
-      while not path:empty() and parent ~= self:getParent(path:pop()) do end
+      local parent = self:get_parent(vertex)
+      while not path:empty() and parent ~= self:get_parent(path:pop()) do end
       backward = false
     end
 
     path:push(vertex)
 
-    if not self:hasSuccessors(vertex) then
-      local array = path:toArray()
+    if not self:has_successors(vertex) then
+      local array = path:to_array()
       paths:push(array)
       backward = true
     end
 
-    local suc = self:getSuccessors(vertex)
+    local suc = self:get_successors(vertex)
     for i = 0,len(suc)-1 do
       queue:push(suc[i])
     end

@@ -15,14 +15,14 @@ test[#test+1] = function()
   assert(1 == ts:length())
   assert(10 == ts:get(time1)[2])
 
-  local found, x = ts:getExact(time1)
+  local found, x = ts:get_exact(time1)
   assert(found)
   assert(10 == x)
 
   local t = time1 - time.minutes(1)
   assert(10 == ts:get(t)[2])
 
-  found, x = ts:getExact(t)
+  found, x = ts:get_exact(t)
   assert(not found)
 
 
@@ -33,14 +33,14 @@ test[#test+1] = function()
   assert(2 == ts:length())
   assert(20 == ts:get(time2)[2])
 
-  found, x = ts:getExact(time2)
+  found, x = ts:get_exact(time2)
   assert(found)
   assert(20 == x)
 
   t = time1 + time.seconds(25)
   assert(20 == ts:get(t)[2])
 
-  found, x = ts:getExact(t)
+  found, x = ts:get_exact(t)
   assert(not found)
 end
 

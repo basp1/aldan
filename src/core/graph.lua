@@ -40,7 +40,7 @@ function graph.clear(self)
   self.edges = {}
 end
 
-function graph.addVertex(self, vertex)
+function graph.add_vertex(self, vertex)
   self.from[self.n] = NIL
   self.vertices[self.n] = vertex
   self.n = self.n + 1
@@ -48,13 +48,13 @@ function graph.addVertex(self, vertex)
   return self.n - 1
 end
 
-function graph.getVertex(self, vertex)
+function graph.get_vertex(self, vertex)
   assert(vertex >= 0 and vertex < self.n)
 
   return self.vertices[vertex]
 end
 
-function graph.hasEdges(self, vertex)
+function graph.has_edges(self, vertex)
   assert(vertex >= 0 and vertex < self.n)
 
   if NIL == self.from[vertex] then
@@ -64,11 +64,11 @@ function graph.hasEdges(self, vertex)
   end
 end
 
-function graph.hasEdge(self, from, to)
+function graph.has_edge(self, from, to)
   assert(from >= 0 and from < self.n)
   assert(to >= 0)
 
-  if not self:hasEdges(from) then
+  if not self:has_edges(from) then
     return false
   end
 
@@ -84,7 +84,7 @@ function graph.hasEdge(self, from, to)
   return false
 end
 
-function graph.addEdge(self, from, to, edge)
+function graph.add_edge(self, from, to, edge)
   assert(from >= 0 and from < self.n)
   assert(to >= 0)
 
@@ -111,11 +111,11 @@ function graph.addEdge(self, from, to, edge)
   self.m = self.m + 1
 end
 
-function graph.removeEdge(self, from, to)
+function graph.remove_edge(self, from, to)
   assert(from >= 0 and from < self.n)
   assert(to >= 0)
 
-  if not self:hasEdges(from) then
+  if not self:has_edges(from) then
     return
   end
 
@@ -149,10 +149,10 @@ function graph.removeEdge(self, from, to)
   self.m = self.m - 1
 end
 
-function graph.removeEdges(self, vertex)
+function graph.remove_edges(self, vertex)
   assert(vertex >= 0 and vertex < self.n)
 
-  if not self:hasEdges(vertex) then
+  if not self:has_edges(vertex) then
     return
   end
 
@@ -170,7 +170,7 @@ function graph.removeEdges(self, vertex)
   self.m = self.m - n
 end
 
-function graph.getAdjacent(self, vertex)
+function graph.get_adjacent(self, vertex)
   assert(vertex >= 0 and vertex < self.n)
 
   local adjacent = {}
@@ -185,10 +185,10 @@ function graph.getAdjacent(self, vertex)
   return adjacent
 end
 
-function graph.isLeaf(self, vertex)
+function graph.is_leaf(self, vertex)
   assert(vertex >= 0 and vertex < self.n)
 
-  if not self:hasEdges(vertex) then
+  if not self:has_edges(vertex) then
     return true
   end
 

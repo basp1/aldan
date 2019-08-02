@@ -24,7 +24,7 @@ test[#test+1] = function()
 
   s:push(2)
   s:push(3)
-  local xs = s:toArray()
+  local xs = s:to_array()
   assert(3 == len(xs))
   assert(1 == xs[0])
   assert(2 == xs[1])

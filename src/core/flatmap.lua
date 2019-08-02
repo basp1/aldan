@@ -41,7 +41,7 @@ function flatmap.get(self, key)
 end
 
 function flatmap.insert(self, key, value)
-  local index = lowerBound(self.keys, key)
+  local index = lower_bound(self.keys, key)
 
   if index >= 0 and index < self:length() and key == self.keys[index]
   then
@@ -54,7 +54,7 @@ function flatmap.insert(self, key, value)
 end
 
 function flatmap.remove(self, key)
-  local index = lowerBound(self.keys, key)
+  local index = lower_bound(self.keys, key)
 
   if index >= 0 and index < self:length() and key == self.keys[index]
   then
@@ -64,7 +64,7 @@ function flatmap.remove(self, key)
 end
 
 function flatmap.find(self, key)
-  local index = lowerBound(self.keys, key)
+  local index = lower_bound(self.keys, key)
 
   if index >= 0 and index < self:length() and key == self.keys[index]
   then

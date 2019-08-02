@@ -35,7 +35,7 @@ function stack.empty(self)
   return 0 == len(self.list)
 end
 
-function stack.toArray(self)
+function stack.to_array(self)
   return copy(self.list, 0, len(self.list))
 end
 

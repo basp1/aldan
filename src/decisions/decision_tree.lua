@@ -28,7 +28,7 @@ end
 
 function decision_tree.add(self, parent, type, value)
   if self:root() ~= parent then
-    local parent_type = self.tree:getVertex(parent).type
+    local parent_type = self.tree:get_vertex(parent).type
 
     assert('item' ~= type or 'case' == parent_type)
     assert('case' ~= type or 'feature' == parent_type)

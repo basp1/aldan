@@ -37,7 +37,7 @@ function timeseries.add(self, time, item)
 end
 
 function timeseries.insert(self, time, item)
-  local index = lowerBound(self.times, time)
+  local index = lower_bound(self.times, time)
 
   if index >= 0 and index < self:length() and time == self.times[index] then
     self.times[index] = time
@@ -49,14 +49,14 @@ function timeseries.insert(self, time, item)
 end
 
 function timeseries.get(self, time)
-  local index = lowerBound(self.times, time)
+  local index = lower_bound(self.times, time)
 
   assert(index >= 0 and index < self:length())
 
   return {self.times[index], self.items[index]}
 end
 
-function timeseries.getExact(self, time)
+function timeseries.get_exact(self, time)
   local x = self:get(time)
 
   if x[1] ~= time then
@@ -70,7 +70,7 @@ end
 function timeseries.interval(self, from, to)
   local ts = timeseries.new()
 
-  local index = lowerBound(self.times, from)
+  local index = lower_bound(self.times, from)
 
   local n = self:length()
   local i = index

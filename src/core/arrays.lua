@@ -120,7 +120,7 @@ function insert(array, index, value)
   return t
 end
 
-function lowerBound(array, item)
+function lower_bound(array, item)
   local n = len(array) - 1
   local l = 0
   local r = n
@@ -141,7 +141,7 @@ function lowerBound(array, item)
   return l
 end
 
-function binarySearch(array, item)
+function binary_search(array, item)
   assert(len(array) > 0)
 
   local l = 0
