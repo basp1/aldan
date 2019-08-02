@@ -60,19 +60,17 @@ local function build(dataset, features, tree, parent)
   else
     local node = tree:add(parent, 'feature', winner)
 
-    for i=0,len(winner.cases)-1 do
-      local case = winner.cases[i]
-
+    for _,case in pairs(winner.cases) do
       local sucDataset = dataset:filter(function (sample)
-        return sample.find_if(function (c)
-          return c == case
+        return sample:find_if(function (c)
+          return c.id == case.id
         end)
       end)
 
       local sucFeatures = {}
       for i=0,len(features)-1 do
         local feature = features[i]
-        if feature ~= winner then
+        if feature.id ~= winner.id then
           sucFeatures[len(sucFeatures)] = feature
         end
       end

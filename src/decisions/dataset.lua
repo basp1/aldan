@@ -67,7 +67,7 @@ function dataset.filter(self, predicate)
   local filtered = filter(self.samples, predicate)
 
   for i=0,len(filtered)-1 do
-    that.add(filtered[i])
+    that:add(filtered[i])
   end
 
   return that
