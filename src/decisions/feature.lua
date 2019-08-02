@@ -16,10 +16,11 @@ end
 local case = {}
 case.__index = case
 
-function case.new(name, from, to)
+function case.new(feature, name, from, to)
   local self = setmetatable({}, case)
 
   self.id = math.random()
+  self.feature = feature 
   self.name = name
   self.from = from
   self.to = to
@@ -40,7 +41,7 @@ function feature.add(self, x, from, to)
     to = from
   end
   if nil ~= from then
-    x = case.new(x, from, to)
+    x = case.new(self, x, from, to)
   end
 
   assert(nil == self.cases[x.id])
