@@ -6,7 +6,7 @@ feature.__index = feature
 function feature.new(name)
     local self = setmetatable({}, feature)
 
-    self.id = math.random()
+    self.id = math.random(0, 1e10)
     self.name = name
     self.cases = {}
 
@@ -19,7 +19,7 @@ case.__index = case
 function case.new(feature, name, from, to)
     local self = setmetatable({}, case)
 
-    self.id = math.random()
+    self.id = math.random(0, 1e10)
     self.feature = feature
     self.name = name
     self.from = from
