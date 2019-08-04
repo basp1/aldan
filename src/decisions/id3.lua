@@ -4,38 +4,48 @@ local decision_tree = require("src/decisions/decision_tree")
 local id3 = {}
 id3.__index = id3
 
+local function incf(map, key)
+    if nil == map[key] then
+        map[key] = 0
+    end
+    map[key] = map[key] + 1
+end
+
 local function entropy(dataset, feature)
-    local freqs = {}
+    local cases = {}
+    local outs = {}
 
     for i = 0, dataset:length() - 1 do
         local sample = dataset:get(i)
-        local case = sample:find_if(function (case) return case.feature.id == feature.id end)
+        local case = sample:find_if(function(case)
+            return case.feature.id == feature.id
+        end)
 
-        if nil == freqs[case.id] then
-            freqs[case.id] = { 0, {}}
-        end
-        freqs[case.id][1] = freqs[case.id][1] + 1
+        if nil ~= case then
+            incf(cases, case.id)
 
-        if nil == freqs[case.id][2][sample.output] then
-            freqs[case.id][2][sample.output] = 0
+            if nil == outs[case.id] then
+                outs[case.id] = {}
+            end
+
+            incf(outs[case.id], sample.output)
         end
-        freqs[case.id][2][sample.output] = freqs[case.id][2][sample.output] + 1
     end
 
-    for id in pairs(freqs) do
-        for key in pairs(freqs[id][2]) do
-            freqs[id][2][key] = freqs[id][2][key] / freqs[id][1]
+    for id, freq in pairs(cases) do
+        for key in pairs(outs[id]) do
+            outs[id][key] = outs[id][key] / freq
         end
-        freqs[id][1] = freqs[id][1] / dataset:length()
+        cases[id] = freq / dataset:length()
     end
 
     local sum = 0
-    for _, freq in pairs(freqs) do
+    for id, freq in pairs(cases) do
         local s = 0
-        for _, n in pairs(freq[2]) do
-            s = s + (-n*math.log(n)/math.log(2))
+        for _, n in pairs(outs[id]) do
+            s = s + (-n * math.log(n) / math.log(2))
         end
-        sum = sum + (freq[1] * s)
+        sum = sum + (freq * s)
     end
 
     return sum
@@ -48,7 +58,7 @@ local function build(dataset, features, tree, parent)
         return first ~= sample.output;
     end)
     if allTheSame then
-        tree:add(parent, 'item', {[0]=first})
+        tree:add(parent, 'item', { [0] = first })
         return
     end
 
@@ -78,7 +88,7 @@ local function build(dataset, features, tree, parent)
                 end)
             end)
 
-            local sucFeatures = filter(features,function(feature)
+            local sucFeatures = filter(features, function(feature)
                 return feature.id ~= winner.id
             end)
 
