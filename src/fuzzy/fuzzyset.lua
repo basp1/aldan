@@ -1,9 +1,9 @@
 require "src/core/arrays"
 
-local set = {}
-set.__index = set
+local fuzzyset = {}
+fuzzyset.__index = fuzzyset
 
-function set.point(x, maxy, tolerance)
+function fuzzyset.point(x, maxy, tolerance)
     if nil == maxy then
         maxy = 1
     end
@@ -12,12 +12,12 @@ function set.point(x, maxy, tolerance)
         tolerance = 1e-8
     end
 
-    return set.linear({ [0] = x - tolerance, x, x + tolerance },
+    return fuzzyset.linear({ [0] = x - tolerance, x, x + tolerance },
             { [0] = 0, maxy, 0 })
 end
 
-function set.linear(x, y, scatter)
-    local self = setmetatable({}, set)
+function fuzzyset.linear(x, y, scatter)
+    local self = setmetatable({}, fuzzyset)
 
     if nil == scatter or 0 == scatter then
         self.x = x
@@ -50,7 +50,7 @@ function set.linear(x, y, scatter)
     return self
 end
 
-function set.get(self, x)
+function fuzzyset.get(self, x)
     local i = lower_bound(self.x, x)
 
     if 0 == i or (len(self.x) - 1) == i or x == self.x[i] then
@@ -62,4 +62,4 @@ function set.get(self, x)
     return y + self.y[i]
 end
 
-return set
+return fuzzyset
