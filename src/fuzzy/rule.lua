@@ -21,7 +21,7 @@ function rule.deduct(self, basis)
 
     for i = 1, len(self.antecedent) - 1 do
         local a = self.antecedent[i].attached
-        acc = basis:fuzzy_and(acc, a)
+        acc = basis.fuzzy_and(acc, a)
     end
 
     local alpha = acc
@@ -30,11 +30,12 @@ function rule.deduct(self, basis)
     local y = copy(self.consequent.set.y)
 
     for i = 0, len(y) - 1 do
-        y[i] = basis:fuzzy_impl(alpha, y[i])
+        y[i] = basis.fuzzy_impl(alpha, y[i])
     end
 
-    local answer = self.consequent.var:add("random_name", fuzzyset.linear(x, y))
-    answer = answer:defuzzy()
+    local val = self.consequent.var:add("random_name", fuzzyset.linear(x, y))
+    local answer = val:defuzzy()
+    self.consequent.var:remove(val)
 
     return answer
 end

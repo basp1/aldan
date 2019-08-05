@@ -38,6 +38,10 @@ function variable.add(self, x, set)
     return x
 end
 
+function variable.remove(self, val)
+    self.values[val.id] = nil
+end
+
 function value.defuzzy(self)
     local numerator = 0
     local denominator = 0
