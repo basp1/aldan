@@ -1,28 +1,10 @@
 require "src/core/arrays"
-local Feature = require "src/decisions/feature"
 local Dataset = require "src/decisions/dataset"
 local Id3 = require "src/decisions/id3"
 
+require "test/decisions/id3_data"
+
 local test = {}
-
-local outlook = Feature.new("Outlook")
-local sunny = outlook:add("sunny", 0)
-local overcast = outlook:add("overcast", 1)
-local rainy = outlook:add("rainy", 2)
-
-local temp = Feature.new("Temp")
-local cool = temp:add("cool", -100, 0)
-local mild = temp:add("mild", 0, 15)
-local hot = temp:add("hot", 15, 100)
-
-local humidity = Feature.new("Humidity")
-local low = humidity:add("low", 0)
-local normal = humidity:add("normal", 1)
-local high = humidity:add("high", 2)
-
-local wind = Feature.new("Wind")
-local calm = wind:add("calm", 0)
-local windy = wind:add("windy", 1)
 
 test[#test + 1] = function()
     local dataset = Dataset.new()
