@@ -199,15 +199,25 @@ function iota(from, to)
 end
 
 function sort(keys, values)
-    assert(len(keys) == len(values))
+    if nil ~= values then
+        assert(len(keys) == len(values))
+    end
 
     local sorted = iota(0, len(keys))
+    sorted[len(sorted)] = sorted[0]
+    sorted[0] = nil
     table.sort(sorted, function(a, b)
         return keys[a] < keys[b]
     end)
+    for i = 0, len(sorted) - 1 do
+        sorted[i] = sorted[i + 1]
+    end
+    sorted[len(sorted) - 1] = nil
 
     permute(keys, sorted)
-    permute(values, sorted)
+    if nil ~= values then
+        permute(values, sorted)
+    end
 end
 
 function permute(array, indices)
