@@ -19,13 +19,21 @@ function rule_base.infer(self, basis)
     for i = 0, len(self.rules) - 1 do
         local rule = self.rules[i]
         local answer = rule:infer(basis)
+        local var_id = answer.var.id
 
-        answers[answer.id] = answer
-
-        if nil == answer.var.attached then
-            answer.var.attached = answer:defuzzy()
+        if nil == answers[var_id] then
+            answers[var_id] = answer
         else
-            answer.var.attached = basis.fuzzy_or(answer.var.attached, answer:defuzzy())
+            local other = answers[var_id]
+            local x = concat(other.set.x, answer.set.x)
+            sort(x)
+            local y = {}
+            for i = 0, len(x) - 1 do
+                y[i] = basis.fuzzy_or(answer.set:get(x[i]), other.set:get(x[i]))
+            end
+            answer.set.x = x
+            answer.set.y = y
+            answers[var_id] = answer
         end
     end
 
@@ -38,6 +46,8 @@ function rule_base.infer(self, basis)
             answer = val
         end
     end
+
+    answer.var.attached = answer:defuzzy()
 
     return answer
 end
