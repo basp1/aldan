@@ -69,4 +69,8 @@ function fuzzyset.get(self, x)
     return y + self.y[i]
 end
 
+function fuzzyset.get_height(self)
+    return max(self.y)
+end
+
 return fuzzyset

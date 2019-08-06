@@ -1,6 +1,5 @@
 require "src/core/arrays"
-local fuzzyset = require "src/core/fuzzyset"
-local variable = require "src/core/variable"
+local fuzzyset = require "src/fuzzy/fuzzyset"
 
 local rule = {}
 rule.__index = rule
@@ -16,7 +15,7 @@ function rule.new(antecedent, consequent)
     return self
 end
 
-function rule.deduct(self, basis)
+function rule.infer(self, basis)
     local acc = first(self.antecedent).attached
 
     for i = 1, len(self.antecedent) - 1 do
@@ -33,9 +32,8 @@ function rule.deduct(self, basis)
         y[i] = basis.fuzzy_impl(alpha, y[i])
     end
 
-    local val = self.consequent.var:add("random_name", fuzzyset.linear(x, y))
-    local answer = val:defuzzy()
-    self.consequent.var:remove(val)
+    local answer = self.consequent.var:add("random_name", fuzzyset.linear(x, y))
+    self.consequent.var:remove(answer)
 
     return answer
 end
