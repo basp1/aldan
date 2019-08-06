@@ -46,7 +46,7 @@ test[#test + 1] = function()
     local stop = speed:add("stop", fuzzyset.linear({ [0] = 0, 20 }, { [0] = 1, 0 }))
     local slow = speed:add("slow", fuzzyset.linear({ [0] = 10, 30, 50 }, { [0] = 0, 1, 0 }))
     local medium = speed:add("medium", fuzzyset.linear({ [0] = 40, 60, 80 }, { [0] = 0, 1, 0 }))
-    local fast = speed:add("fast", fuzzyset.linear({ [0] = 60, 80, 10 }, { [0] = 0, 1, 0 }))
+    local fast = speed:add("fast", fuzzyset.linear({ [0] = 60, 80, 100 }, { [0] = 0, 1, 0 }))
     local blast = speed:add("blast", fuzzyset.linear({ [0] = 80, 100 }, { [0] = 0, 1 }))
 
     local rb = rule_base.new({ [0] = rule.new({ [0] = cold }, stop),
