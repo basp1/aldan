@@ -16,10 +16,10 @@ function rule.new(antecedent, consequent)
 end
 
 function rule.infer(self, basis)
-    local acc = first(self.antecedent).attached
+    local acc = first(self.antecedent).var.attached
 
     for i = 1, len(self.antecedent) - 1 do
-        local a = self.antecedent[i].attached
+        local a = self.antecedent[i].var.attached
         acc = basis.fuzzy_and(acc, a)
     end
 

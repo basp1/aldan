@@ -1,6 +1,8 @@
-reqire "src/core/arrays"
+require "src/core/arrays"
 local basis = require "src/fuzzy/basis"
+local fuzzyset = require "src/fuzzy/fuzzyset"
 local variable = require "src/fuzzy/variable"
+local rule = require "src/fuzzy/rule"
 local rule_base = require "src/fuzzy/rule_base"
 
 local test = {}
@@ -20,12 +22,12 @@ test[#test + 1] = function()
     local b1 = b:add("b1", fuzzyset.point(8))
     local b2 = b:add("b2", fuzzyset.point(4))
 
-    local rb = rule_base.new({ rule.new({ [0] = a11, a21 }, b1),
+    local rb = rule_base.new({ [0] = rule.new({ [0] = a11, a21 }, b1),
                                rule.new({ [0] = a12, a22 }, b2) })
     a1.attached = 1
     a2.attached = 2
 
-    local answer = rb.infer(basis.mamdani)
+    local answer = rb:infer(basis.mamdani)
     answer = answer:defuzzy()
 
     assert(math.abs(5.3333333333 - answer) < 1e-8)

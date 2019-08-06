@@ -2,7 +2,7 @@ local variable = {}
 variable.__index = variable
 
 function variable.new(name)
-    local self = setmetatable({}, var)
+    local self = setmetatable({}, variable)
 
     self.id = math.random(0, 1e10)
     self.name = name
@@ -21,7 +21,7 @@ function value.new(var, name, set)
     self.id = math.random(0, 1e10)
     self.var = var
     self.name = name
-    self.set = ste
+    self.set = set
 
     return self
 end

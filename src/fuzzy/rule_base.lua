@@ -1,6 +1,6 @@
 require "src/core/arrays"
 local rule = require "src/fuzzy/rule"
-local variable = require "src/core/variable"
+local variable = require "src/fuzzy/variable"
 
 local rule_base = {}
 rule_base.__index = rule_base
@@ -31,7 +31,7 @@ function rule_base.infer(self, basis)
 
     local answer
     local max = 0
-    for id, val in answers do
+    for id, val in pairs(answers) do
         local height = val.set:get_height()
         if height >= max then
             max = height
