@@ -48,12 +48,12 @@ function value.defuzzy(self)
 
     for i = 0, len(self.set.x) - 1 do
         numerator = numerator + (self.set.x[i] * self.set.y[i])
-        denominator = denominator + self.set.x[i]
+        denominator = denominator + self.set.y[i]
     end
 
-    local x = numerator / denominator
+    local result = numerator / denominator
 
-    return x
+    return result
 end
 
 return variable
