@@ -18,6 +18,32 @@ function last(array)
     return array[len(array) - 1]
 end
 
+function max(array)
+    assert(len(array) > 0)
+
+    local m = array[0]
+    for i = 1, len(array) - 1 do
+        if array[i] > m then
+            m = array[i]
+        end
+    end
+
+    return m
+end
+
+function min(array)
+    assert(len(array) > 0)
+
+    local m = array[0]
+    for i = 1, len(array) - 1 do
+        if array[i] < m then
+            m = array[i]
+        end
+    end
+
+    return m
+end
+
 function any(array, predicate)
     for i = 0, len(array) - 1 do
         if predicate(array[i]) then
