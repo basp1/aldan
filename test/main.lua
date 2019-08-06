@@ -26,6 +26,7 @@ run("test/decisions/feature")
 run("test/decisions/id3")
 
 run("test/fuzzy/fuzzyset")
+run("test/fuzzy/rule_base")
 
 local stop = os.clock()
 
