@@ -16,10 +16,11 @@ function rule.new(antecedent, consequent)
 end
 
 function rule.infer(self, basis)
-    local acc = first(self.antecedent).var.attached
+    local first = first(self.antecedent)
+    local acc = first.set:get(first.var.attached)
 
     for i = 1, len(self.antecedent) - 1 do
-        local a = self.antecedent[i].var.attached
+        local a = self.antecedent[i].set:get(self.antecedent[i].var.attached)
         acc = basis.fuzzy_and(acc, a)
     end
 
@@ -32,7 +33,7 @@ function rule.infer(self, basis)
         y[i] = basis.fuzzy_impl(alpha, y[i])
     end
 
-    local answer = self.consequent.var:add("random_name", fuzzyset.linear(x, y))
+    local answer = self.consequent.var:add("$" .. self.consequent.var.name, fuzzyset.linear(x, y))
     self.consequent.var:remove(answer)
 
     return answer
