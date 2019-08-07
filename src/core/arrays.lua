@@ -22,26 +22,52 @@ function last(array)
     return array[len(array) - 1]
 end
 
-function max(array)
+function max(array, func)
+    return array[max_index(array, func)]
+end
+
+function max_index(array, func)
     assert(len(array) > 0)
 
-    local m = array[0]
+    if nil == func then
+        func = function(x)
+            return x
+        end
+    end
+
+    local m = 0
+    local x = func(array[0])
     for i = 1, len(array) - 1 do
-        if array[i] > m then
-            m = array[i]
+        local a = func(array[i])
+        if a > x then
+            m = i
+            x = a
         end
     end
 
     return m
 end
 
-function min(array)
+function min(array, func)
+    return array[min_index(array, func)]
+end
+
+function min_index(array, func)
     assert(len(array) > 0)
 
-    local m = array[0]
+    if nil == func then
+        func = function(x)
+            return x
+        end
+    end
+
+    local m = 0
+    local x = func(array[0])
     for i = 1, len(array) - 1 do
-        if array[i] < m then
-            m = array[i]
+        local a = func(array[i])
+        if a < x then
+            m = i
+            x = a
         end
     end
 

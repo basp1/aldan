@@ -57,17 +57,9 @@ end
 function fuzzyset.get_height(self, ref_points)
     assert(len(ref_points) > 0)
 
-    local height = self:get(ref_points[0])
-
-    for i = 1, len(ref_points) - 1 do
-        local x = ref_points[i]
-        local y = self:get(x)
-        if y > height then
-            height = y
-        end
-    end
-
-    return height
+    return max(ref_points, function (x)
+        return self:get(x)
+    end)
 end
 
 function fuzzyset.defuzzy(self, ref_points)
