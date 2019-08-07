@@ -40,4 +40,44 @@ test[#test + 1] = function()
     assert(10 == lower_bound(array, 100))
 end
 
+test[#test + 1] = function()
+    local array = { }
+    unique(array)
+    assert(0 == len(array))
+
+    array = { [0] = 10 }
+    unique(array)
+    assert(1 == len(array))
+    assert(10 == array[0])
+
+    array = { [0] = 10, 20 }
+    unique(array)
+    assert(2 == len(array))
+    assert(10 == array[0])
+    assert(20 == array[1])
+
+    array = { [0] = 20, 10 }
+    unique(array)
+    assert(2 == len(array))
+    assert(20 == array[0])
+    assert(10 == array[1])
+
+    array = { [0] = 10, 10, 10, 10 }
+    unique(array)
+    assert(1 == len(array))
+    assert(10 == array[0])
+
+    array = { [0] = 10, 10, 20, 10 }
+    unique(array)
+    assert(2 == len(array))
+    assert(10 == array[0])
+    assert(20 == array[1])
+
+    array = { [0] = 10, 20, 10, 20, 10, 20, 30, 30, 30 }
+    unique(array)
+    assert(3 == len(array))
+    assert(10 == array[0])
+    assert(20 == array[1])
+    assert(30 == array[2])
+end
 return test

@@ -220,6 +220,24 @@ function sort(keys, values)
     end
 end
 
+function unique(array)
+    local set = {}
+    local j = 0
+    for i = 0, len(array) - 1 do
+        if nil == set[array[i]] then
+            set[array[i]] = true
+            array[j] = array[i]
+            j = j + 1
+        end
+    end
+    local n = len(array)
+    for i = j, n - 1 do
+        array[i] = nil
+    end
+
+    return array
+end
+
 function permute(array, indices)
     assert(len(array) == len(indices))
 
