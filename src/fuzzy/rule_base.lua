@@ -1,4 +1,5 @@
 require "src/core/arrays"
+local closure = require "src/core/closure"
 local rule = require "src/fuzzy/rule"
 local variable = require "src/fuzzy/variable"
 
@@ -18,30 +19,26 @@ function rule_base.infer(self, basis)
 
     for i = 0, len(self.rules) - 1 do
         local rule = self.rules[i]
+
         local answer = rule:infer(basis)
         local var_id = answer.var.id
 
         if nil == answers[var_id] then
             answers[var_id] = answer
         else
-            local other = answers[var_id]
-            local x = concat(other.set.x, answer.set.x)
-            unique(x)
-            sort(x)
-            local y = {}
-            for j = 0, len(x) - 1 do
-                y[j] = basis.fuzzy_or(answer.set:get(x[j]), other.set:get(x[j]))
-            end
-            answer.set.x = x
-            answer.set.y = y
-            answers[var_id] = answer
+            local old_answer = answers[var_id]
+            answers[var_id].set:set_func(closure.new(
+                    function(self, x)
+                        return self.basis.fuzzy_or(self.f(x), self.g(x))
+                    end,
+                    { f = old_answer.set.func, g = answer.set.func, basis = basis }))
         end
     end
 
     local answer
     local max = 0
     for _, val in pairs(answers) do
-        local height = val.set:get_height()
+        local height = val:get_height()
         if height >= max then
             max = height
             answer = val

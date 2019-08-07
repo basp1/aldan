@@ -1,4 +1,5 @@
 require "src/core/arrays"
+local closure = require "src/core/closure"
 local fuzzyset = require "src/fuzzy/fuzzyset"
 
 local rule = {}
@@ -26,16 +27,12 @@ function rule.infer(self, basis)
 
     local alpha = acc
 
-    local x = copy(self.consequent.set.x)
-    local y = copy(self.consequent.set.y)
-
-    for i = 0, len(y) - 1 do
-        y[i] = basis.fuzzy_impl(alpha, y[i])
-    end
-
-    local answer = self.consequent.var:add("$" .. self.consequent.var.name, fuzzyset.linear(x, y))
-    self.consequent.var:remove(answer)
-
+    local answer = self.consequent:copy()
+    answer.set:set_func(closure.new(
+            function(self, x)
+                return self.basis.fuzzy_impl(self.alpha, self.f(x))
+            end,
+            { alpha = alpha, f = self.consequent.set.func, basis = basis }))
     return answer
 end
 

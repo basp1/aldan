@@ -1,11 +1,15 @@
 local variable = {}
 variable.__index = variable
 
-function variable.new(name)
+function variable.new(name, min, max)
+    assert(min <= max)
+
     local self = setmetatable({}, variable)
 
     self.id = math.random(0, 1e10)
     self.name = name
+    self.min = min
+    self.max = max
     self.values = {}
     self.attached = nil
 
@@ -42,18 +46,38 @@ function variable.remove(self, val)
     self.values[val.id] = nil
 end
 
-function value.defuzzy(self)
-    local numerator = 0
-    local denominator = 0
-
-    for i = 0, len(self.set.x) - 1 do
-        numerator = numerator + (self.set.x[i] * self.set.y[i])
-        denominator = denominator + self.set.y[i]
+function value.get_height(self, step)
+    if nil == step then
+        step = (self.var.max - self.var.min) / 10
     end
 
-    local result = numerator / denominator
+    local ref_points = {}
+    local x = self.var.min
+    while x <= self.var.max do
+        ref_points[len(ref_points)] = x
+        x = x + step
+    end
 
-    return result
+    return self.set:get_height(ref_points)
+end
+
+function value.defuzzy(self, step)
+    if nil == step then
+        step = (self.var.max - self.var.min) / 10
+    end
+
+    local ref_points = {}
+    local x = self.var.min
+    while x <= self.var.max do
+        ref_points[len(ref_points)] = x
+        x = x + step
+    end
+
+    return self.set:defuzzy(ref_points)
+end
+
+function value.copy(self)
+    return value.new(self.var, name, self.set)
 end
 
 return variable
