@@ -77,7 +77,7 @@ function value.defuzzy(self, step)
 end
 
 function value.copy(self)
-    return value.new(self.var, name, self.set)
+    return value.new(self.var, self.name, self.set)
 end
 
 return variable

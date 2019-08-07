@@ -1,7 +1,4 @@
 require "src/core/arrays"
-local closure = require "src/core/closure"
-local rule = require "src/fuzzy/rule"
-local variable = require "src/fuzzy/variable"
 
 local rule_base = {}
 rule_base.__index = rule_base
@@ -45,6 +42,7 @@ function rule_base.infer(self, basis)
         end
     end
 
+    answer.name = "$" .. answer.var.name
     answer.var.attached = answer:defuzzy()
 
     return answer

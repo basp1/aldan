@@ -1,6 +1,4 @@
 require "src/core/arrays"
-local closure = require "src/core/closure"
-local Basis = require "src/fuzzy/basis"
 
 local fuzzyset = {}
 fuzzyset.__index = fuzzyset
