@@ -27,6 +27,7 @@ function rule_base.infer(self, basis)
             local other = answers[var_id]
             local x = concat(other.set.x, answer.set.x)
             sort(x)
+            unique(x)
             local y = {}
             for i = 0, len(x) - 1 do
                 y[i] = basis.fuzzy_or(answer.set:get(x[i]), other.set:get(x[i]))
