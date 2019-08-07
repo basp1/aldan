@@ -218,10 +218,14 @@ function binary_search(array, item)
     return -1
 end
 
-function iota(from, to)
+function iota(from, count, step)
+    if nil == step then
+        step = 1
+    end
+
     array = {}
 
-    for i = from, (to - 1) do
+    for i = from, (from + count) - 1, step do
         array[len(array)] = i
     end
 

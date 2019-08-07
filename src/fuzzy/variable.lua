@@ -1,3 +1,5 @@
+require "src/core/arrays"
+
 local variable = {}
 variable.__index = variable
 
@@ -51,12 +53,7 @@ function value.get_height(self, step)
         step = (self.var.max - self.var.min) / 10
     end
 
-    local ref_points = {}
-    local x = self.var.min
-    while x <= self.var.max do
-        ref_points[len(ref_points)] = x
-        x = x + step
-    end
+    local ref_points = iota(self.var.min, self.var.max - self.var.min, step)
 
     return self.set:get_height(ref_points)
 end
@@ -66,12 +63,7 @@ function value.defuzzy(self, step)
         step = (self.var.max - self.var.min) / 10
     end
 
-    local ref_points = {}
-    local x = self.var.min
-    while x <= self.var.max do
-        ref_points[len(ref_points)] = x
-        x = x + step
-    end
+    local ref_points = iota(self.var.min, self.var.max - self.var.min, step)
 
     return self.set:defuzzy(ref_points)
 end
