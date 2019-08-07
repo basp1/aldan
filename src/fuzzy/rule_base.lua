@@ -26,11 +26,11 @@ function rule_base.infer(self, basis)
         else
             local other = answers[var_id]
             local x = concat(other.set.x, answer.set.x)
-            sort(x)
             unique(x)
+            sort(x)
             local y = {}
-            for i = 0, len(x) - 1 do
-                y[i] = basis.fuzzy_or(answer.set:get(x[i]), other.set:get(x[i]))
+            for j = 0, len(x) - 1 do
+                y[j] = basis.fuzzy_or(answer.set:get(x[j]), other.set:get(x[j]))
             end
             answer.set.x = x
             answer.set.y = y
@@ -40,7 +40,7 @@ function rule_base.infer(self, basis)
 
     local answer
     local max = 0
-    for id, val in pairs(answers) do
+    for _, val in pairs(answers) do
         local height = val.set:get_height()
         if height >= max then
             max = height

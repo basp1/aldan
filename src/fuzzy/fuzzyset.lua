@@ -3,9 +3,9 @@ require "src/core/arrays"
 local fuzzyset = {}
 fuzzyset.__index = fuzzyset
 
-function fuzzyset.point(x, maxy, tolerance)
-    if nil == maxy then
-        maxy = 1
+function fuzzyset.point(x, y, tolerance)
+    if nil == y then
+        y = 1
     end
 
     if nil == tolerance then
@@ -13,7 +13,7 @@ function fuzzyset.point(x, maxy, tolerance)
     end
 
     return fuzzyset.linear({ [0] = x - tolerance, x, x + tolerance },
-            { [0] = 0, maxy, 0 })
+            { [0] = 0, y, 0 })
 end
 
 function fuzzyset.linear(x, y, scatter)
