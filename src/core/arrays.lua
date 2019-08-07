@@ -6,6 +6,10 @@ function len(array)
     return n
 end
 
+function empty(array)
+    return nil == array or 0 == len(array)
+end
+
 function first(array)
     assert(len(array) > 0)
 
