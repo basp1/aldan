@@ -17,7 +17,7 @@ function fuzzyset.point(x, y)
     end
 
     return fuzzyset.new(function(a)
-        if a == x then
+        if math.abs(a - x) < 1e-8 then
             return y
         else
             return 0
