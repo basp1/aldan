@@ -27,11 +27,11 @@ function rule_base.infer(self, basis)
             answers[var_id] = answer
         else
             local old_answer = answers[var_id]
-            answers[var_id].set:set_func(closure.new(
-                    function(self, x)
-                        return self.basis.fuzzy_or(self.f(x), self.g(x))
-                    end,
-                    { f = old_answer.set.func, g = answer.set.func, basis = basis }))
+            local f = old_answer.set.func
+            local g = answer.set.func
+            answers[var_id].set:set_func(function(x)
+                return basis.fuzzy_or(f(x), g(x))
+            end)
         end
     end
 

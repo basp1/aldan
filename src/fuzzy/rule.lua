@@ -25,14 +25,12 @@ function rule.infer(self, basis)
         acc = basis.fuzzy_and(acc, a)
     end
 
-    local alpha = acc
-
     local answer = self.consequent:copy()
-    answer.set:set_func(closure.new(
-            function(self, x)
-                return self.basis.fuzzy_impl(self.alpha, self.f(x))
-            end,
-            { alpha = alpha, f = self.consequent.set.func, basis = basis }))
+    local alpha = acc
+    local f = self.consequent.set.func
+    answer.set:set_func(function(x)
+        return basis.fuzzy_impl(alpha, f(x))
+    end)
     return answer
 end
 

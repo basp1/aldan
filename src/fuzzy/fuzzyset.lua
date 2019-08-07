@@ -18,32 +18,32 @@ function fuzzyset.point(x, y)
         y = 1
     end
 
-    return fuzzyset.new(closure.new(function(self, x)
-        if x == self.x then
-            return self.y
+    return fuzzyset.new(function(a)
+        if a == x then
+            return y
         else
             return 0
         end
-    end, { x = x, y = y }))
+    end)
 end
 
 function fuzzyset.linear(x, y)
-    return fuzzyset.new(closure.new(function(self, x)
-        local i = lower_bound(self.x, x)
+    return fuzzyset.new(function(a)
+        local i = lower_bound(x, a)
 
-        if 0 == i or (i < len(self.x) and x == self.x[i]) then
-            return self.y[i]
+        if 0 == i or (i < len(x) and a == x[i]) then
+            return y[i]
         end
 
-        if len(self.x) == i then
-            return last(self.y)
+        if len(x) == i then
+            return last(y)
         end
 
         i = i - 1
-        local y = (self.y[i + 1] - self.y[i]) * (x - self.x[i]) / (self.x[i + 1] - self.x[i])
+        local b = (y[i + 1] - y[i]) * (a - x[i]) / (x[i + 1] - x[i])
 
-        return y + self.y[i]
-    end, { x = x, y = y }))
+        return b + y[i]
+    end)
 end
 
 function fuzzyset.get(self, x)
@@ -57,7 +57,7 @@ end
 function fuzzyset.get_height(self, ref_points)
     assert(len(ref_points) > 0)
 
-    return max(ref_points, function (x)
+    return max(ref_points, function(x)
         return self:get(x)
     end)
 end
