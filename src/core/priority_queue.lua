@@ -14,7 +14,7 @@ function priority_queue.new(selectFunc)
 end
 
 function priority_queue.push(self, value)
-    local index = self.length
+    local index = self.length + 1
 
     if #(self.values) < index then
         table.insert(self.values, value)
@@ -91,7 +91,7 @@ function priority_queue.demote(self, index)
     local value = self.values[index]
 
     while index < self.length do
-        local right = (1 + index) * 2
+        local right = index * 2
         local rv
         if right <= self.length then
             rv = self.values[right]

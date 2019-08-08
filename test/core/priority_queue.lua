@@ -97,13 +97,13 @@ test[#test + 1] = function()
 
     assert(1 == pq:top())
 
-    for i = 1, math.floor(N / 2 - 1) do
+    for i = 1, math.floor(N / 2) do
         pq:pop()
     end
 
     assert(math.floor(N / 2 + 1) == pq:top())
 
-    for i = 1, math.floor(N / 2 - 2) do
+    for i = 1, math.floor(N / 2 - 1) do
         pq:pop()
     end
 
