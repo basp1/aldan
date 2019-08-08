@@ -9,7 +9,7 @@ function tree.new()
     local self = setmetatable({}, tree)
 
     self.graph = graph:new()
-    self.root = self.graph:add_vertex(nil)
+    self.root = self.graph:add_vertex({})
 
     return self
 end

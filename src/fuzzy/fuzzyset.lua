@@ -33,7 +33,7 @@ function fuzzyset.linear(x, y)
             return y[i]
         end
 
-        if i >= #(x) then
+        if i > #(x) then
             return last(y)
         end
 

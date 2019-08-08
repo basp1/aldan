@@ -31,7 +31,7 @@ function dataset.add(self, x, output)
     if nil ~= output then
         x = dataset.sample(x, output)
     end
-    self.samples[#(self.samples)] = x
+    table.insert(self.samples, x)
 end
 
 function dataset.get(self, index)
