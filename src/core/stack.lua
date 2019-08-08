@@ -12,31 +12,31 @@ function stack.new()
 end
 
 function stack.push(self, value)
-    self.list[len(self.list)] = value
+    table.insert(self.list, value)
 end
 
 function stack.pop(self)
     local value = self:top()
 
-    self.list[len(self.list) - 1] = nil
+    self.list[#(self.list)] = nil
 
     return value
 end
 
 function stack.length(self)
-    return len(self.list)
+    return #(self.list)
 end
 
 function stack.top(self)
-    return self.list[len(self.list) - 1]
+    return last(self.list)
 end
 
 function stack.empty(self)
-    return 0 == len(self.list)
+    return 0 == #(self.list)
 end
 
 function stack.to_array(self)
-    return copy(self.list, 0, len(self.list))
+    return copy(self.list, 1, #(self.list))
 end
 
 return stack

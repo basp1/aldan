@@ -14,7 +14,7 @@ end
 function rule_base.infer(self, basis)
     local answers = {}
 
-    for i = 0, len(self.rules) - 1 do
+    for i = 0, #(self.rules) - 1 do
         local rule = self.rules[i]
 
         local answer = rule:infer(basis)

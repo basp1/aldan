@@ -1,25 +1,17 @@
-function len(array)
-    local n = #array
-    if array[0] then
-        n = n + 1
-    end
-    return n
-end
-
 function empty(array)
-    return nil == array or 0 == len(array)
+    return nil == array or 0 == #(array)
 end
 
 function first(array)
-    assert(len(array) > 0)
+    assert(#(array) > 0)
 
-    return array[0]
+    return array[1]
 end
 
 function last(array)
-    assert(len(array) > 0)
+    assert(#(array) > 0)
 
-    return array[len(array) - 1]
+    return array[#(array)]
 end
 
 function max(array, func)
@@ -27,7 +19,7 @@ function max(array, func)
 end
 
 function max_index(array, func)
-    assert(len(array) > 0)
+    assert(#(array) > 0)
 
     if nil == func then
         func = function(x)
@@ -35,9 +27,9 @@ function max_index(array, func)
         end
     end
 
-    local m = 0
-    local x = func(array[0])
-    for i = 1, len(array) - 1 do
+    local m = 1
+    local x = func(array[1])
+    for i = 2, #(array) do
         local a = func(array[i])
         if a > x then
             m = i
@@ -53,7 +45,7 @@ function min(array, func)
 end
 
 function min_index(array, func)
-    assert(len(array) > 0)
+    assert(#(array) > 0)
 
     if nil == func then
         func = function(x)
@@ -61,9 +53,9 @@ function min_index(array, func)
         end
     end
 
-    local m = 0
-    local x = func(array[0])
-    for i = 1, len(array) - 1 do
+    local m = 1
+    local x = func(array[1])
+    for i = 2, #(array) do
         local a = func(array[i])
         if a < x then
             m = i
@@ -75,7 +67,7 @@ function min_index(array, func)
 end
 
 function any(array, predicate)
-    for i = 0, len(array) - 1 do
+    for i = 1, #(array) do
         if predicate(array[i]) then
             return true
         end
@@ -84,7 +76,7 @@ function any(array, predicate)
 end
 
 function all(array, predicate)
-    for i = 0, len(array) - 1 do
+    for i = 1, #(array) do
         if not predicate(array[i]) then
             return false
         end
@@ -95,8 +87,8 @@ end
 function map(array, func)
     local mapped = {}
 
-    for i = 0, len(array) - 1 do
-        mapped[len(mapped)] = func(array[i])
+    for i = 1, #(array) do
+        table.insert(mapped, func(array[i]))
     end
 
     return mapped
@@ -105,9 +97,9 @@ end
 function filter(array, predicate)
     local filtered = {}
 
-    for i = 0, len(array) - 1 do
+    for i = 1, #(array) do
         if predicate(array[i]) then
-            filtered[len(filtered)] = array[i]
+            table.insert(filtered, array[i])
         end
     end
 
@@ -115,7 +107,7 @@ function filter(array, predicate)
 end
 
 function find_if(array, predicate)
-    for i = 0, len(array) - 1 do
+    for i = 1, #(array) do
         if predicate(array[i]) then
             return array[i]
         end
@@ -127,14 +119,14 @@ function copy(array, from, to)
     local t = {}
 
     if nil == from then
-        from = 0
+        from = 1
     end
     if nil == to then
-        to = len(array)
+        to = #(array)
     end
 
-    for i = from, (to - 1) do
-        t[len(t)] = array[i]
+    for i = from, to do
+        table.insert(t, array[i])
     end
 
     return t
@@ -143,8 +135,9 @@ end
 function concat(array1, array2)
     local t = copy(array1)
 
-    for i = 0, len(array2) do
-        t[len(t)] = array2[i]
+    for i = 0, #(array2) do
+        table.insert(t, array2[i])
+
     end
 
     return t
@@ -153,9 +146,9 @@ end
 function remove(array, index)
     local t = {}
 
-    for i = 0, len(array) do
+    for i = 1, #(array) do
         if i ~= index then
-            t[len(t)] = array[i]
+            table.insert(t, array[i])
         end
     end
 
@@ -165,20 +158,24 @@ end
 function insert(array, index, value)
     local t = {}
 
-    for i = 0, len(array) do
-        if i == index then
-            t[len(t)] = value
+    if index == (1 + #(array)) then
+        t = copy(array)
+        table.insert(t, value)
+    else
+        for i = 1, #(array) + 1 do
+            if i == index then
+                table.insert(t, value)
+            end
+            table.insert(t, array[i])
         end
-        t[len(t)] = array[i]
-
     end
 
     return t
 end
 
 function lower_bound(array, item)
-    local n = len(array) - 1
-    local l = 0
+    local n = #(array)
+    local l = 1
     local r = n
 
     while l <= r do
@@ -198,10 +195,10 @@ function lower_bound(array, item)
 end
 
 function binary_search(array, item)
-    assert(len(array) > 0)
+    assert(#(array) > 0)
 
-    local l = 0
-    local r = len(array) - 1
+    local l = 1
+    local r = #(array)
 
     while l <= r do
         local m = math.floor(l + (r - l) / 2)
@@ -215,7 +212,7 @@ function binary_search(array, item)
         end
     end
 
-    return -1
+    return 0
 end
 
 function iota(from, count, step)
@@ -225,47 +222,40 @@ function iota(from, count, step)
 
     array = {}
 
-    for i = from, (from + count) - 1, step do
-        array[len(array)] = i
+    for i = from, (from + count), step do
+        table.insert(array, i)
     end
 
     return array
 end
 
 function sort(keys, values)
-    if nil ~= values then
-        assert(len(keys) == len(values))
+    if nil == values then
+        table.sort(keys)
+        assert(#(keys) == #(values))
     end
 
-    local sorted = iota(0, len(keys))
-    sorted[len(sorted)] = sorted[0]
-    sorted[0] = nil
+    local sorted = iota(1, #(keys))
     table.sort(sorted, function(a, b)
         return keys[a] < keys[b]
     end)
-    for i = 0, len(sorted) - 1 do
-        sorted[i] = sorted[i + 1]
-    end
-    sorted[len(sorted) - 1] = nil
 
     permute(keys, sorted)
-    if nil ~= values then
-        permute(values, sorted)
-    end
+    permute(values, sorted)
 end
 
 function unique(array)
     local set = {}
-    local j = 0
-    for i = 0, len(array) - 1 do
+    local j = 1
+    for i = 1, #(array) do
         if nil == set[array[i]] then
             set[array[i]] = true
             array[j] = array[i]
             j = j + 1
         end
     end
-    local n = len(array)
-    for i = j, n - 1 do
+    local n = #(array)
+    for i = j, n do
         array[i] = nil
     end
 
@@ -273,16 +263,16 @@ function unique(array)
 end
 
 function permute(array, indices)
-    assert(len(array) == len(indices))
+    assert(#(array) == #(indices))
 
-    local n = len(array)
+    local n = #(array)
     local t = {}
 
-    for i = 0, (n - 1) do
+    for i = 1, n do
         t[i] = array[indices[i]]
     end
 
-    for i = 0, (n - 1) do
+    for i = 1, n do
         array[i] = t[i]
     end
 end

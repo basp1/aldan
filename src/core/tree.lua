@@ -67,7 +67,7 @@ function tree.all_paths(self)
         end
 
         local suc = self:get_successors(vertex)
-        for i = 0, len(suc) - 1 do
+        for i = 1, #(suc) do
             queue:push(suc[i])
         end
     end

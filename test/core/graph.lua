@@ -143,7 +143,7 @@ test[#test + 1] = function()
     g:remove_edge(c, a)
     g:remove_edge(c, b)
 
-    assert(a == g:length())
+    assert(0 == g:length())
 
     g:add_edge(a, a, '-')
     g:add_edge(a, b, '-')
@@ -179,7 +179,7 @@ test[#test + 1] = function()
     g:remove_edges(b)
     g:remove_edges(c)
 
-    assert(a == g:length())
+    assert(0 == g:length())
 
     g:add_edge(a, a, '-')
     g:add_edge(a, b, '-')

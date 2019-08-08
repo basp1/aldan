@@ -3,7 +3,7 @@ require "src/core/arrays"
 local graph = {}
 graph.__index = graph
 
-local NIL = -1
+local NIL = 0
 
 function graph.new()
     local self = setmetatable({}, graph)
@@ -30,7 +30,7 @@ function graph.clear(self)
     self.m = 0
     self.free = NIL
 
-    for i = 0, self.n - 1 do
+    for i = 1, self.n do
         self.from[i] = NIL
         self.vertices[i] = nil
     end
@@ -41,21 +41,21 @@ function graph.clear(self)
 end
 
 function graph.add_vertex(self, vertex)
-    self.from[self.n] = NIL
-    self.vertices[self.n] = vertex
+    table.insert(self.from, NIL)
+    table.insert(self.vertices, vertex)
     self.n = self.n + 1
 
-    return self.n - 1
+    return self.n
 end
 
 function graph.get_vertex(self, vertex)
-    assert(vertex >= 0 and vertex < self.n)
+    assert(vertex > 0 and vertex <= self.n)
 
     return self.vertices[vertex]
 end
 
 function graph.has_edges(self, vertex)
-    assert(vertex >= 0 and vertex < self.n)
+    assert(vertex > 0 and vertex <= self.n)
 
     if NIL == self.from[vertex] then
         return false
@@ -65,8 +65,8 @@ function graph.has_edges(self, vertex)
 end
 
 function graph.has_edge(self, from, to)
-    assert(from >= 0 and from < self.n)
-    assert(to >= 0)
+    assert(from > 0 and from <= self.n)
+    assert(to > 0)
 
     if not self:has_edges(from) then
         return false
@@ -84,19 +84,20 @@ function graph.has_edge(self, from, to)
 end
 
 function graph.add_edge(self, from, to, edge)
-    assert(from >= 0 and from < self.n)
-    assert(to >= 0)
+    assert(from > 0 and from <= self.n)
+    assert(to > 0)
 
-    if self.free >= 0 then
+    local n
+    if self.free > 0 then
         n = self.free
         self.to[self.free] = to
         self.edges[self.free] = edge
         self.free = self.next[self.free]
     else
-        n = self.m
-        self.next[self.m] = NIL
-        self.to[self.m] = to
-        self.edges[self.m] = edge
+        n = self.m + 1
+        self.next[n] = NIL
+        self.to[n] = to
+        self.edges[n] = edge
     end
 
     if NIL == self.from[from] then
@@ -110,8 +111,8 @@ function graph.add_edge(self, from, to, edge)
 end
 
 function graph.remove_edge(self, from, to)
-    assert(from >= 0 and from < self.n)
-    assert(to >= 0)
+    assert(from > 0 and from <= self.n)
+    assert(to > 0)
 
     if not self:has_edges(from) then
         return
@@ -148,7 +149,7 @@ function graph.remove_edge(self, from, to)
 end
 
 function graph.remove_edges(self, vertex)
-    assert(vertex >= 0 and vertex < self.n)
+    assert(vertex > 0 and vertex <= self.n)
 
     if not self:has_edges(vertex) then
         return
@@ -169,10 +170,10 @@ function graph.remove_edges(self, vertex)
 end
 
 function graph.get_adjacent(self, vertex)
-    assert(vertex >= 0 and vertex < self.n)
+    assert(vertex > 0 and vertex <= self.n)
 
     local adjacent = {}
-    local i = 0
+    local i = 1
     local j = self.from[vertex]
     while NIL ~= j do
         adjacent[i] = self.to[j]
@@ -184,7 +185,7 @@ function graph.get_adjacent(self, vertex)
 end
 
 function graph.is_leaf(self, vertex)
-    assert(vertex >= 0 and vertex < self.n)
+    assert(vertex > 0 and vertex <= self.n)
 
     if not self:has_edges(vertex) then
         return true
@@ -236,27 +237,27 @@ function graph.sort(self)
     local sorted
     local index
 
-    local n = len(self.from)
-    for i = 0, (n - 1) do
+    local n = #(self.from)
+    for i = 1, n do
         sorted = {}
         index = {}
         local j = self.from[i]
 
         while NIL ~= j do
-            sorted[len(sorted)] = self.to[j]
-            index[len(index)] = j
+            sorted[#(sorted)] = self.to[j]
+            index[#(index)] = j
             j = self.next[j]
         end
 
-        if len(sorted) >= 2 then
+        if #(sorted) >= 2 then
 
             sort(sorted, index)
 
-            for j = 1, len(sorted) do
-                self.next[index[j - 1]] = index[j]
+            for j = 1, #(sorted) do
+                self.next[index[j]] = index[j + 1]
 
-                self.from[i] = index[0]
-                self.next[index[len(sorted) - 1]] = NIL
+                self.from[i] = index[1]
+                self.next[index[#(sorted)]] = NIL
             end
         end
     end
@@ -270,7 +271,7 @@ function graph.equals(self, that)
         return false
     end
 
-    for i = 0, (self.n - 1) do
+    for i = 1, self.n do
         local j = self.from[i]
         local k = that.from[i]
 

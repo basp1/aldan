@@ -15,7 +15,7 @@ local function entropy(dataset, feature)
     local cases = {}
     local outs = {}
 
-    for i = 0, dataset:length() - 1 do
+    for i = 1, dataset:length() do
         local sample = dataset:get(i)
         local case = sample:find_if(function(case)
             return case.feature.id == feature.id
@@ -58,13 +58,13 @@ local function build(dataset, features, tree, parent)
         return first ~= sample.output;
     end)
     if allTheSame then
-        tree:add(parent, 'item', { [0] = first })
+        tree:add(parent, 'item', { first })
         return
     end
 
     local winner
     local min = 1e100
-    for i = 0, len(features) - 1 do
+    for i = 1, #(features) do
         local feature = features[i]
         local metric = entropy(dataset, feature)
         if metric < min then

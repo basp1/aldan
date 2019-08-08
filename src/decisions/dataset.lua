@@ -31,11 +31,11 @@ function dataset.add(self, x, output)
     if nil ~= output then
         x = dataset.sample(x, output)
     end
-    self.samples[len(self.samples)] = x
+    self.samples[#(self.samples)] = x
 end
 
 function dataset.get(self, index)
-    assert(index >=0 and index < self:length())
+    assert(index > 0 and index <= self:length())
 
     return self.samples[index]
 end
@@ -53,7 +53,7 @@ function dataset.empty(self)
 end
 
 function dataset.length(self)
-    return len(self.samples)
+    return #(self.samples)
 end
 
 function dataset.any(self, predicate)
@@ -72,7 +72,7 @@ function dataset.filter(self, predicate)
     local that = dataset.new()
     local filtered = filter(self.samples, predicate)
 
-    for i = 0, len(filtered) - 1 do
+    for i = 1, #(filtered) do
         that:add(filtered[i])
     end
 

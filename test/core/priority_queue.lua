@@ -62,20 +62,16 @@ end
 test[#test + 1] = function()
     local pq = priority_queue.new(math.min)
 
-    for i = 8, 0, -1 do
+    for i = 9, 1, -1 do
         pq:push(i)
     end
 
-    assert(0 == pq:top())
-    assert(4 == pq:height())
-
-    pq:pop()
     assert(1 == pq:top())
     assert(4 == pq:height())
 
     pq:pop()
     assert(2 == pq:top())
-    assert(3 == pq:height())
+    assert(4 == pq:height())
 
     pq:pop()
     assert(3 == pq:top())
@@ -83,6 +79,10 @@ test[#test + 1] = function()
 
     pq:pop()
     assert(4 == pq:top())
+    assert(3 == pq:height())
+
+    pq:pop()
+    assert(5 == pq:top())
     assert(3 == pq:height())
 end
 
@@ -97,13 +97,13 @@ test[#test + 1] = function()
 
     assert(1 == pq:top())
 
-    for i = 0, math.floor(N / 2 - 1) do
+    for i = 1, math.floor(N / 2 - 1) do
         pq:pop()
     end
 
     assert(math.floor(N / 2 + 1) == pq:top())
 
-    for i = 0, math.floor(N / 2 - 2) do
+    for i = 1, math.floor(N / 2 - 2) do
         pq:pop()
     end
 

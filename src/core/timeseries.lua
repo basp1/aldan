@@ -15,7 +15,7 @@ end
 function timeseries.first(self)
     assert(not self.items.empty())
 
-    return { self.times[0], self.items[0] }
+    return { first(self.times), first(self.items) }
 end
 
 function timeseries.last(self)
@@ -25,20 +25,20 @@ function timeseries.last(self)
 end
 
 function timeseries.length(self)
-    return len(self.times)
+    return #(self.times)
 end
 
 function timeseries.add(self, time, item)
     assert(0 == self:length() or time >= last(self.times))
 
-    self.times[len(self.times)] = time
-    self.items[len(self.items)] = item
+    table.insert(self.times, time)
+    table.insert(self.items, item)
 end
 
 function timeseries.insert(self, time, item)
     local index = lower_bound(self.times, time)
 
-    if index >= 0 and index < self:length() and time == self.times[index] then
+    if index > 0 and index <= self:length() and time == self.times[index] then
         self.times[index] = time
         self.items[index] = item
     else
@@ -50,7 +50,7 @@ end
 function timeseries.get(self, time)
     local index = lower_bound(self.times, time)
 
-    assert(index >= 0 and index < self:length())
+    assert(index > 0 and index <= self:length())
 
     return { self.times[index], self.items[index] }
 end
@@ -72,7 +72,7 @@ function timeseries.interval(self, from, to)
 
     local n = self:length()
     local i = index
-    while i < n and self.times[i] < to do
+    while i <= n and self.times[i] < to do
         ts:insert(self.times[i], self.items[i])
         i = i + 1
     end

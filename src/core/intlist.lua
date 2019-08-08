@@ -71,7 +71,7 @@ function intlist.pop_all(self)
     local n = self.length
     local values = {}
 
-    for i = 0, n - 1 do
+    for i = 1, n do
         values[i] = self:pop()
     end
 

@@ -29,11 +29,11 @@ function fuzzyset.linear(x, y)
     return fuzzyset.new(function(a)
         local i = lower_bound(x, a)
 
-        if 0 == i or (i < len(x) and a == x[i]) then
+        if 1 == i or (i <= #(x) and a == x[i]) then
             return y[i]
         end
 
-        if len(x) == i then
+        if i >= #(x) then
             return last(y)
         end
 
@@ -53,7 +53,7 @@ function fuzzyset.copy(self)
 end
 
 function fuzzyset.get_height(self, ref_points)
-    assert(len(ref_points) > 0)
+    assert(#(ref_points) > 0)
 
     return max(ref_points, function(x)
         return self:get(x)
@@ -61,12 +61,12 @@ function fuzzyset.get_height(self, ref_points)
 end
 
 function fuzzyset.defuzzy(self, ref_points)
-    assert(len(ref_points) > 0)
+    assert(#(ref_points) > 0)
 
     local numerator = 0
     local denominator = 0
 
-    for i = 1, len(ref_points) - 1 do
+    for i = 1, #(ref_points) do
         local x = ref_points[i]
         local y = self:get(x)
         numerator = numerator + (x * y)

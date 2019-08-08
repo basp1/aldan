@@ -22,8 +22,8 @@ test[#test + 1] = function()
     local b1 = b:add("b1", fuzzyset.point(8))
     local b2 = b:add("b2", fuzzyset.point(4))
 
-    local rb = rule_base.new({ [0] = rule.new({ [0] = a11, a21 }, b1),
-                               rule.new({ [0] = a12, a22 }, b2) })
+    local rb = rule_base.new({ rule.new({ a11, a21 }, b1),
+                               rule.new({ a12, a22 }, b2) })
     a1.attached = 1
     a2.attached = 2
 
@@ -36,24 +36,24 @@ end
 test[#test + 1] = function()
     local temp = variable.new("temperature", 0, 100)
 
-    local cold = temp:add("cold", fuzzyset.linear({ [0] = 5, 10 }, { [0] = 1, 0 }))
-    local cool = temp:add("cool", fuzzyset.linear({ [0] = 5, 12, 17 }, { [0] = 0, 1, 0 }))
-    local right = temp:add("right", fuzzyset.linear({ [0] = 15, 20, 25 }, { [0] = 0, 1, 0 }))
-    local warm = temp:add("warm", fuzzyset.linear({ [0] = 20, 26, 32 }, { [0] = 0, 1, 0 }))
-    local hot = temp:add("hot", fuzzyset.linear({ [0] = 30, 35 }, { [0] = 0, 1 }))
+    local cold = temp:add("cold", fuzzyset.linear({ 5, 10 }, { 1, 0 }))
+    local cool = temp:add("cool", fuzzyset.linear({ 5, 12, 17 }, { 0, 1, 0 }))
+    local right = temp:add("right", fuzzyset.linear({ 15, 20, 25 }, { 0, 1, 0 }))
+    local warm = temp:add("warm", fuzzyset.linear({ 20, 26, 32 }, { 0, 1, 0 }))
+    local hot = temp:add("hot", fuzzyset.linear({ 30, 35 }, { 0, 1 }))
 
     local speed = variable.new("speed", 0, 100)
-    local stop = speed:add("stop", fuzzyset.linear({ [0] = 0, 20 }, { [0] = 1, 0 }))
-    local slow = speed:add("slow", fuzzyset.linear({ [0] = 10, 30, 50 }, { [0] = 0, 1, 0 }))
-    local medium = speed:add("medium", fuzzyset.linear({ [0] = 40, 60, 80 }, { [0] = 0, 1, 0 }))
-    local fast = speed:add("fast", fuzzyset.linear({ [0] = 60, 80, 100 }, { [0] = 0, 1, 0 }))
-    local blast = speed:add("blast", fuzzyset.linear({ [0] = 80, 100 }, { [0] = 0, 1 }))
+    local stop = speed:add("stop", fuzzyset.linear({ 0, 20 }, { 1, 0 }))
+    local slow = speed:add("slow", fuzzyset.linear({ 10, 30, 50 }, { 0, 1, 0 }))
+    local medium = speed:add("medium", fuzzyset.linear({ 40, 60, 80 }, { 0, 1, 0 }))
+    local fast = speed:add("fast", fuzzyset.linear({ 60, 80, 100 }, { 0, 1, 0 }))
+    local blast = speed:add("blast", fuzzyset.linear({ 80, 100 }, { 0, 1 }))
 
-    local rb = rule_base.new({ [0] = rule.new({ [0] = cold }, stop),
-                               rule.new({ [0] = cool }, slow),
-                               rule.new({ [0] = right }, medium),
-                               rule.new({ [0] = warm }, fast),
-                               rule.new({ [0] = hot }, blast) })
+    local rb = rule_base.new({ rule.new({ cold }, stop),
+                               rule.new({ cool }, slow),
+                               rule.new({ right }, medium),
+                               rule.new({ warm }, fast),
+                               rule.new({ hot }, blast) })
 
     temp.attached = 16
 

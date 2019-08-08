@@ -4,7 +4,7 @@ local rule = {}
 rule.__index = rule
 
 function rule.new(antecedent, consequent)
-    assert(len(antecedent) > 0)
+    assert(#(antecedent) > 0)
 
     local self = setmetatable({}, rule)
 
@@ -18,7 +18,7 @@ function rule.infer(self, basis)
     local first = first(self.antecedent)
     local acc = first.set:get(first.var.attached)
 
-    for i = 1, len(self.antecedent) - 1 do
+    for i = 1, #(self.antecedent) do
         local a = self.antecedent[i].set:get(self.antecedent[i].var.attached)
         acc = basis.fuzzy_and(acc, a)
     end

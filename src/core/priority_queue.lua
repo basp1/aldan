@@ -16,8 +16,8 @@ end
 function priority_queue.push(self, value)
     local index = self.length
 
-    if len(self.values) <= index then
-        self.values[len(self.values)] = value
+    if #(self.values) < index then
+        table.insert(self.values, value)
     else
         self.values[index] = value
     end
@@ -35,11 +35,11 @@ function priority_queue.pop(self)
     if 1 == self.length then
         self.length = 0
     else
-        local last = self.values[self.length - 1]
-        self.values[0] = last
+        local last = self.values[self.length]
+        self.values[1] = last
         self.length = self.length - 1
 
-        self:demote(0)
+        self:demote(1)
     end
 
     return t
@@ -48,7 +48,7 @@ end
 function priority_queue.top(self)
     assert(self.length > 0)
 
-    return self.values[0]
+    return self.values[1]
 end
 
 function priority_queue.height(self)
@@ -56,15 +56,15 @@ function priority_queue.height(self)
 end
 
 function priority_queue.promote(self, index)
-    assert(index >= 0 and index < self.length)
+    assert(index > 0 and index <= self.length)
 
-    if 0 == index then
+    if 1 == index then
         return
     end
 
     local parent = math.floor(index / 2)
 
-    while index > 0 do
+    while index > 1 do
         local t = self.values[index]
 
         if t ~= self.selectFunc(t, self.values[parent])
@@ -82,9 +82,9 @@ function priority_queue.promote(self, index)
 end
 
 function priority_queue.demote(self, index)
-    assert(index >= 0 and index < self.length)
+    assert(index > 0 and index <= self.length)
 
-    if self.length == (1 + index) then
+    if self.length == index then
         return
     end
 
@@ -93,29 +93,29 @@ function priority_queue.demote(self, index)
     while index < self.length do
         local right = (1 + index) * 2
         local rv
-        if right < self.length then
+        if right <= self.length then
             rv = self.values[right]
         end
 
         local left = right - 1
         local lv
-        if left < self.length then
+        if left <= self.length then
             lv = self.values[left]
         end
 
-        local child = -1
-        if right < self.length and left < self.length and lv == self.selectFunc(lv, rv)
+        local child = 0
+        if right <= self.length and left <= self.length and lv == self.selectFunc(lv, rv)
         then
             child = left
-        elseif right < self.length
+        elseif right <= self.length
         then
             child = right
-        elseif left < self.length
+        elseif left <= self.length
         then
             child = left
         end
 
-        if child < 0 or value == self.selectFunc(value, self.values[child])
+        if child <= 0 or value == self.selectFunc(value, self.values[child])
         then
             break
         else
