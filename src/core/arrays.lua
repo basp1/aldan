@@ -1,3 +1,21 @@
+function equals(a, b)
+    if a == b then
+        return true
+    end
+
+    if #a ~= #b then
+        return false
+    end
+
+    for i = 1, #a do
+        if a[i] ~= b[i] then
+            return false
+        end
+    end
+
+    return true
+end
+
 function empty(array)
     return nil == array or 0 == #(array)
 end

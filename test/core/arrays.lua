@@ -212,4 +212,151 @@ test.min_index = function()
     assert(4 == min_index(array))
 end
 
+test.any = function()
+    local predicate = function(a)
+        return a >= 30
+    end
+
+    local array = { }
+    assert(not any(array, predicate))
+
+    array = { 10 }
+    assert(not any(array, predicate))
+
+    array = { 20, 10 }
+    assert(not any(array, predicate))
+
+    array = { 30 }
+    assert(any(array, predicate))
+
+    array = { 10, 20, 30 }
+    assert(any(array, predicate))
+
+    array = { 30, 30, 30 }
+    assert(any(array, predicate))
+end
+
+test.all = function()
+    local predicate = function(a)
+        return a == 30
+    end
+
+    local array = { }
+    assert(all(array, predicate))
+
+    array = { 10 }
+    assert(not all(array, predicate))
+
+    array = { 10, 20 }
+    assert(not all(array, predicate))
+
+    array = { 10, 20, 30 }
+    assert(not all(array, predicate))
+
+    array = { 30, 30, 10 }
+    assert(not all(array, predicate))
+
+    array = { 30 }
+    assert(all(array, predicate))
+
+    array = { 30, 30, 30 }
+    assert(all(array, predicate))
+end
+
+test.equals = function()
+    local a = { }
+    local b = a
+    assert(equals(a, b))
+
+    a = { }
+    b = {}
+    assert(equals(a, b))
+
+    a = { 10 }
+    b = {}
+    assert(not equals(a, b))
+
+    a = { }
+    b = { 10 }
+    assert(not equals(a, b))
+
+    a = { 10 }
+    b = { 10 }
+    assert(equals(a, b))
+
+    a = { 10, 20 }
+    b = { 10, 20 }
+    assert(equals(a, b))
+
+    a = { 10, 20 }
+    b = { 10, 30 }
+    assert(not equals(a, b))
+end
+
+test.map = function()
+    local func = function(a)
+        return a + 1
+    end
+
+    local array = { }
+    assert(equals({}, map(array, func)))
+
+    local array = { 10 }
+    assert(equals({ 11 }, map(array, func)))
+
+    local array = { 10, 20 }
+    assert(equals({ 11, 21 }, map(array, func)))
+
+    local array = { 20, 10 }
+    assert(equals({ 21, 11 }, map(array, func)))
+end
+
+test.filter = function()
+    local predicate = function(a)
+        return a >= 30
+    end
+
+    local array = { }
+    assert(equals({}, filter(array, predicate)))
+
+    local array = { 10 }
+    assert(equals({}, filter(array, predicate)))
+
+    local array = { 10, 20 }
+    assert(equals({}, filter(array, predicate)))
+
+    local array = { 10, 20, 30 }
+    assert(equals({ 30 }, filter(array, predicate)))
+
+    local array = { 30 }
+    assert(equals({ 30 }, filter(array, predicate)))
+
+    local array = { 10, 20, 30, 40, 0, 30, 30, 10, 40 }
+    assert(equals({ 30, 40, 30, 30, 40 }, filter(array, predicate)))
+end
+
+test.find_if = function()
+    local predicate = function(a)
+        return a >= 30
+    end
+
+    local array = { }
+    assert(nil == find_if(array, predicate))
+
+    array = { 10 }
+    assert(nil == find_if(array, predicate))
+
+    array = { 10, 20 }
+    assert(nil == find_if(array, predicate))
+
+    array = { 30 }
+    assert(30 == find_if(array, predicate))
+
+    array = { 10, 20, 30 }
+    assert(30 == find_if(array, predicate))
+
+    array = { 10, 20, 30, 30, 10 }
+    assert(30 == find_if(array, predicate))
+end
+
 return test
