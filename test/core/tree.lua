@@ -58,9 +58,9 @@ test[#test + 1] = function()
     assert(e == t:get_parent(j))
 
     local paths = t:all_paths()
-    assert(not paths:empty())
+    assert(not empty(paths))
 
-    assert(5 == paths:length())
+    assert(5 == #paths)
 end
 
 return test

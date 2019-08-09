@@ -26,7 +26,7 @@ test[#test + 1] = function()
     local tree = Id3.build(dataset, { outlook, temp, humidity, wind })
     local paths = tree.tree:all_paths()
 
-    assert(5 == paths:length())
+    assert(5 == #paths)
 end
 
 test[#test + 1] = function()
@@ -49,13 +49,13 @@ test[#test + 1] = function()
     local tree = Id3.build(dataset, { outlook, temp, humidity, wind })
     local paths = tree.tree:all_paths()
 
-    assert(14 == paths:length())
+    assert(14 == #paths)
 
     dataset:add({ sunny, mild, high, windy }, 31)
 
     tree = Id3.build(dataset, { outlook, temp, humidity, wind })
     paths = tree.tree:all_paths()
-    assert(14 == paths:length())
+    assert(14 == #paths)
 end
 
 return test

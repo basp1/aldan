@@ -41,7 +41,7 @@ function tree.get_parent(self, vertex)
 end
 
 function tree.all_paths(self)
-    local paths = stack:new()
+    local paths = {}
     local path = stack:new()
     local queue = stack:new()
 
@@ -62,7 +62,7 @@ function tree.all_paths(self)
 
         if not self:has_successors(vertex) then
             local array = path:to_array()
-            paths:push(array)
+            table.insert(paths, array)
             backward = true
         end
 
