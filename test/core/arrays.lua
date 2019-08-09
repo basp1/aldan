@@ -359,4 +359,109 @@ test.find_if = function()
     assert(30 == find_if(array, predicate))
 end
 
+test.copy = function()
+    local array = { }
+    assert(equals({}, copy(array)))
+
+    array = { 10 }
+    assert(equals({ 10 }, copy(array)))
+
+    array = { 10, 20 }
+    assert(equals({ 10, 20 }, copy(array)))
+
+    array = { 10 }
+    assert(equals({ 10 }, copy(array, 1)))
+
+    array = { 10, 20, 30 }
+    assert(equals({ 10, 20, 30 }, copy(array, 1)))
+
+    array = { 10, 20, 30 }
+    assert(equals({ 10, 20, 30 }, copy(array, 1, 3)))
+
+    array = { 10, 20, 30 }
+    assert(equals({ 10, 20 }, copy(array, 1, 2)))
+
+    array = { 10, 20, 30 }
+    assert(equals({ 10 }, copy(array, 1, 1)))
+
+    array = { 10, 20, 30 }
+    assert(equals({  }, copy(array, 1, 0)))
+
+    array = { 10, 20, 30 }
+    assert(equals({ 20, 30 }, copy(array, 2)))
+
+    array = { 10, 20, 30 }
+    assert(equals({ 20 }, copy(array, 2, 1)))
+
+    array = { 10, 20, 30 }
+    assert(equals({ 20, 30 }, copy(array, 2, 2)))
+end
+
+test.concat = function()
+    assert(equals({}, concat({}, {})))
+
+    assert(equals({ 10 }, concat({}, { 10 })))
+
+    assert(equals({ 10 }, concat({ 10 }, {})))
+
+    assert(equals({ 10, 20 }, concat({ 10 }, { 20 })))
+
+    assert(equals({ 10, 20, 30 }, concat({ 10, 20 }, { 30 })))
+
+    assert(equals({ 10, 20, 30 }, concat({ 10 }, { 20, 30 })))
+end
+
+test.remove = function()
+    assert(equals({}, remove({ 10 }, 1)))
+
+    assert(equals({ 20 }, remove({ 10, 20 }, 1)))
+
+    assert(equals({ 10 }, remove({ 10, 20 }, 2)))
+
+    assert(equals({ 10, 20, 40 }, remove({ 10, 20, 30, 40 }, 3)))
+end
+
+test.insert = function()
+    assert(equals({ 10 }, insert({ }, 1, 10)))
+
+    assert(equals({ 10, 20 }, insert({ 20 }, 1, 10)))
+
+    assert(equals({ 10, 20 }, insert({ 10 }, 2, 20)))
+
+    assert(equals({ 10, 20, 30, 40 }, insert({ 10, 20, 40 }, 3, 30)))
+end
+
+test.iota = function()
+    assert(equals({ 1 }, iota(1)))
+
+    assert(equals({ 1 }, iota(1, 1)))
+
+    assert(equals({ 1 }, iota(1, 1, 1)))
+
+    assert(equals({ 1, 2, 3, 4 }, iota(1, 4)))
+
+    assert(equals({ 1, 2, 3, 4 }, iota(4)))
+end
+
+test.sort = function()
+    local keys = {}
+    local values = {}
+    sort(keys)
+    assert(equals({}, keys))
+
+    keys = { 10 }
+    sort(keys)
+    assert(equals({ 10 }, keys))
+
+    keys = { 30, 10, 40, 20 }
+    sort(keys)
+    assert(equals({ 10, 20, 30, 40 }, keys))
+
+    keys = { 30, 10, 40, 20 }
+    values = { 'a', 'b', 'c', 'd' }
+    sort(keys, values)
+    assert(equals({ 10, 20, 30, 40 }, keys))
+    assert(equals({ 'b', 'd', 'a', 'c' }, values))
+end
+
 return test
