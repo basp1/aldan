@@ -232,8 +232,10 @@ end
 function sort(keys, values)
     if nil == values then
         table.sort(keys)
-        assert(#(keys) == #(values))
+        return
     end
+
+    assert(#(keys) == #(values))
 
     local sorted = iota(1, #(keys))
     table.sort(sorted, function(a, b)
