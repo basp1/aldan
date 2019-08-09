@@ -36,7 +36,7 @@ function stack.empty(self)
 end
 
 function stack.to_array(self)
-    return copy(self.list, 1, #(self.list))
+    return copy(self.list)
 end
 
 return stack

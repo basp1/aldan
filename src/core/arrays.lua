@@ -133,14 +133,18 @@ function find_if(array, predicate)
     return nil
 end
 
-function copy(array, from, to)
+function copy(array, from, count)
     local t = {}
 
     if nil == from then
         from = 1
     end
-    if nil == to then
+
+    local to
+    if nil == count then
         to = #(array)
+    else
+        to = from + count - 1
     end
 
     for i = from, to do
@@ -155,7 +159,6 @@ function concat(array1, array2)
 
     for i = 0, #(array2) do
         table.insert(t, array2[i])
-
     end
 
     return t
@@ -233,14 +236,16 @@ function binary_search(array, item)
     return 0
 end
 
-function iota(from, count, step)
-    if nil == step then
-        step = 1
+function iota(from, count)
+    if nil == count then
+        count = from
+        from = 1
     end
 
     array = {}
+    local to = from + count - 1
 
-    for i = from, (from + count), step do
+    for i = from, to do
         table.insert(array, i)
     end
 
@@ -255,7 +260,7 @@ function sort(keys, values)
 
     assert(#(keys) == #(values))
 
-    local sorted = iota(1, #(keys))
+    local sorted = iota(#(keys))
     table.sort(sorted, function(a, b)
         return keys[a] < keys[b]
     end)
