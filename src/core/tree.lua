@@ -14,13 +14,9 @@ function tree.new()
     return self
 end
 
-function tree.add(self, parent, value, weight)
-    if nil == weight then
-        weight = 1
-    end
-
+function tree.add(self, parent, value, edge)
     local vertex = self.graph:add_vertex({ parent = parent, value = value })
-    self.graph:add_edge(parent, vertex, weight)
+    self.graph:add_edge(parent, vertex, edge)
     return vertex
 end
 
@@ -29,6 +25,12 @@ function tree.get_vertex(self, vertex)
 end
 
 function tree.get_successors(self, vertex)
+    return map(self:get_adjacent(vertex), function(a)
+        return a.vertex
+    end)
+end
+
+function tree.get_adjacent(self, vertex)
     return self.graph:get_adjacent(vertex)
 end
 
@@ -38,6 +40,14 @@ end
 
 function tree.get_parent(self, vertex)
     return self.graph:get_vertex(vertex).parent
+end
+
+function tree.is_leaf(self, vertex)
+    return self:has_successors(vertex)
+end
+
+function tree.set_vertex(self, vertex, value)
+    self.graph:get_vertex(vertex).value = value
 end
 
 function tree.all_paths(self)

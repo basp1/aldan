@@ -41,9 +41,10 @@ function graph.clear(self)
 end
 
 function graph.add_vertex(self, vertex)
-    table.insert(self.from, NIL)
-    table.insert(self.vertices, vertex)
     self.n = self.n + 1
+
+    self.from[self.n] = NIL
+    self.vertices[self.n] = vertex
 
     return self.n
 end
@@ -52,6 +53,12 @@ function graph.get_vertex(self, vertex)
     assert(vertex > 0 and vertex <= self.n)
 
     return self.vertices[vertex]
+end
+
+function graph.set_vertex(self, vertex, value)
+    assert(vertex > 0 and vertex <= self.n)
+
+    self.vertices[vertex] = value
 end
 
 function graph.has_edges(self, vertex)
@@ -176,7 +183,7 @@ function graph.get_adjacent(self, vertex)
     local i = 1
     local j = self.from[vertex]
     while NIL ~= j do
-        adjacent[i] = self.to[j]
+        adjacent[i] = { vertex = self.to[j], edge = self.edges[j] }
         j = self.next[j]
         i = i + 1
     end
