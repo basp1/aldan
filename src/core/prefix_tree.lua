@@ -16,23 +16,43 @@ end
 -- add vertex join
 -- add vertex split
 function prefix_tree.add(self, path, value)
-    local node = self.tree.root
+    local vertex = self.tree.root
 
     for _, x in pairs(path) do
-        local successors = self.tree:get_successors(node)
+        local adjacent = self.tree:get_adjacent(vertex)
 
-        local suc = find_if(successors, function(a)
-            return self.tree:get_vertex(a) == x
+        local adj = find_if(adjacent, function(a)
+            return x == a.edge
         end)
 
-        if nil == suc then
-            suc = self.tree:add(node, x)
+        if nil ~= adj then
+            vertex = adj.vertex
+        else
+            vertex = self.tree:add(vertex, nil, x)
         end
-
-        node = suc
     end
 
-    self.tree:add(node, value)
+    self.tree:set_vertex(vertex, value)
+end
+
+function prefix_tree.find(self, path)
+    local vertex = self.tree.root
+
+    for _, x in pairs(path) do
+        local adjacent = self.tree:get_adjacent(vertex)
+
+        local adj = find_if(adjacent, function(a)
+            return a.edge == x
+        end)
+
+        if nil == adj then
+            return nil
+        end
+
+        vertex = adj.vertex
+    end
+
+    return self.tree:get_vertex(vertex)
 end
 
 function prefix_tree.all_paths(self)
