@@ -5,7 +5,7 @@ function run(testname)
     local test = require(testname)
     for name, func in pairs(test) do
         func()
-        print(name .. " passed")
+        print("'" .. name .. "' passed")
     end
 end
 
