@@ -29,10 +29,10 @@ function case.new(feature, name, from, to)
 end
 
 function case.distance(self, value)
-    if value > self.from and value < self.to then
+    if value >= self.from and value <= self.to then
         return 0
     else
-        return math.min(math.abs(value - self.from), math.abs(value - self.ti))
+        return math.min(math.abs(value - self.from), math.abs(value - self.to))
     end
 end
 
