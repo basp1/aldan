@@ -27,11 +27,11 @@ function sample.find_if(self, predicate)
     return find_if(self.values, predicate)
 end
 
-function dataset.add(self, x, output)
+function dataset.add(self, input, output)
     if nil ~= output then
-        x = dataset.sample(x, output)
+        input = dataset.sample(input, output)
     end
-    table.insert(self.samples, x)
+    table.insert(self.samples, input)
 end
 
 function dataset.get(self, index)
