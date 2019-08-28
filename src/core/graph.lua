@@ -107,10 +107,6 @@ function graph.add_edge(self, from, to, edge)
         self.edges[n] = edge
     end
 
-    if NIL == self.from[from] then
-        self.from[from] = NIL
-    end
-
     self.next[n] = self.from[from]
     self.from[from] = n
 
