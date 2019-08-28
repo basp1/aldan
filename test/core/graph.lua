@@ -70,38 +70,6 @@ test[#test + 1] = function()
     g:remove_edge(c, a)
     g:remove_edge(c, b)
 
-    local e = graph.new()
-    a = e:add_vertex('a')
-    b = e:add_vertex('b')
-    c = e:add_vertex('c')
-
-    e:add_edge(a, a, '-')
-    e:add_edge(b, a, '-')
-
-    g:sort()
-    e:sort()
-
-    assert(e:equals(g))
-end
-
-test[#test + 1] = function()
-    local g = graph.new()
-    local a = g:add_vertex('a')
-    local b = g:add_vertex('b')
-    local c = g:add_vertex('c')
-
-    g:add_edge(a, a, '-')
-    g:add_edge(a, b, '-')
-    g:add_edge(b, a, '-')
-    g:add_edge(b, b, '-')
-    g:add_edge(c, a, '-')
-    g:add_edge(c, b, '-')
-
-    g:remove_edge(a, b)
-    g:remove_edge(b, b)
-    g:remove_edge(c, a)
-    g:remove_edge(c, b)
-
     g:remove_edge(a, a)
     g:add_edge(a, a, '-')
 
